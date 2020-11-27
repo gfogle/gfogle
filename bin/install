@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Git Aliases"
+
+git config --global alias.lgo "log --oneline --graph"
+git config --global alias.size "count-objects -v -H"
+git config --global alias.wip "!f(){ git add --all && git commit -m \":information_desk_person:\"; };f"
