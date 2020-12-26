@@ -1,0 +1,43 @@
+{
+  "author": {
+    "name": "George Fogle",
+    "web": "https://github.com/gfogle"
+  },
+  "bin": {
+    "mweb": "./src/cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/gfogle/gfogle/issues"
+  },
+  "description": "CLI for generating and managing modernweb projects",
+  "engines": {
+    "node": ">=14.15.0"
+  },
+  "files": [
+    "src/*"
+  ],
+  "homepage": "https://github.com/gfogle/gfogle/modernweb",
+  "keywords": [
+    "Node"
+  ],
+  "main": "cli.js",
+  "name": "@gfogle/modernweb-cli",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gfogle/gfogle.git"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/tsc --diagnostics --noEmit",
+    "prepublish": "npm lint",
+    "publish": "",
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION-cli && git push upstream --tags"
+  },
+  "version": "0.1.0",
+  "devDependencies": {
+    "@types/node": "14.14.16",
+    "prettier": "2.2.1",
+    "ts-node": "9.1.1",
+    "typescript": "4.1.3"
+  }
+}
