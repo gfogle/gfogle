@@ -1,24 +1,21 @@
-const Command = require("./command");
-
 /**
- * @property {Array<String>?} input
- * @property {Command?} output
+ * @description Context object used by Interpreter
+ *
+ * @property {?string[]} input - the user provided input
+ * @property {import('./command')?} output - the command to execute if input is valid
  */
 class Context {
-  /** @type {Array<String>?} */
+  /** @type {?string[]} */
   #input = null;
-  /** @type {Command?} */
+
+  /** @type {import('./command')?} */
   output = null;
 
-  constructor(/** @type {Array<String>} */ args) {
-    if (args.length <= 2) {
-      throw new Error(
-        `No arguments provided. Did you forget to include a command?`
-      );
-    }
-
-    // @ts-ignore Object.freeze => readonly string[]
-    this.#input = Object.freeze([...args.slice(2)]);
+  /**
+   * @param {string[]} args
+   */
+  constructor(args) {
+    this.#input = [...args.slice(2)];
     this.output = null;
   }
 

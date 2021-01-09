@@ -1,9 +1,9 @@
-// const Context = require("./context");
-
-const Context = require("./context");
-
 class Expression {
-  static interpret(/** @type {Context} */ context) {
+  /**
+   * @abstract
+   * @param {import('./context')} context
+   */
+  interpret(context) {
     throw new Error("Not Implemented");
   }
 }

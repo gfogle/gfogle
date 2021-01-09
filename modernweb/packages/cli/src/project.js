@@ -5,7 +5,7 @@ const fs = require("fs");
  * @class Project
  * @description a new modernweb Project with a name and directory path
  */
-module.exports = class Project {
+class Project {
   /** @type {child_process.SpawnSyncOptions?} */
   #cmdOptions = null;
 
@@ -93,4 +93,18 @@ module.exports = class Project {
       ...options,
     });
   }
-};
+}
+
+class Domain extends Project {
+  /**
+   * @constructor
+   * @param {String} name
+   * @param {String} directory
+   */
+  constructor(name, directory) {
+    super(name, directory);
+  }
+}
+
+module.exports.Domain = Domain;
+module.exports.Project = Project;

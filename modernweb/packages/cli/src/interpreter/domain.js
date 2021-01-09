@@ -1,24 +1,16 @@
-const Command = require("../command");
-const Expression = require("../expression");
-const Project = require("../../project");
-const Context = require("../context");
+const Command = require("./command");
+const Domain = require("../project").Domain;
+const Expression = require("./expression");
+const Context = require("./context");
 
 class DomainExpression extends Expression {
-  static interpret(/** @type {Context} */ context) {
-    if (context.input?.[0].trim() === "domain" && context.input?.[1]) {
+  /**
+   * @param {Context} context
+   */
+  interpret(context) {
+    if (context?.input?.[0].trim() === "domain" && context?.input?.[1]) {
       context.output = new DomainCommand(context);
     }
-  }
-}
-
-class Domain extends Project {
-  /**
-   * @constructor
-   * @param {String} name
-   * @param {String} directory
-   */
-  constructor(name, directory) {
-    super(name, directory);
   }
 }
 

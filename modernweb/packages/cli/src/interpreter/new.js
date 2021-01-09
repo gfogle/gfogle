@@ -1,10 +1,13 @@
-const Command = require("../command");
-const Expression = require("../expression");
-const Project = require("../../project");
-const Context = require("../context");
+const Command = require("./command");
+const Expression = require("./expression");
+const Project = require("../project").Project;
+const Context = require("./context");
 
 class NewExpression extends Expression {
-  static interpret(/** @type {Context} */ context) {
+  /**
+   * @param {Context} context
+   */
+  interpret(context) {
     if (context.input?.[0].trim() === "new") {
       context.output = new NewCommand(context);
     }
@@ -107,7 +110,6 @@ class NewCommand extends Command {
           devDependencies: {
             "@types/node": "14.14.16",
             prettier: "2.2.1",
-            "ts-node": "9.1.1",
             typescript: "4.1.3",
           },
           engines: {
@@ -236,7 +238,7 @@ class NewCommand extends Command {
 
     // TODO: what if they dont have NVM installed?
 
-    this.#project?.createFile(".npmrc", "save_exact=true\n");
+    this.#project?.createFile(".npmrc", "save-exact=true\n");
     this.#project?.createFile(".nvmrc", `${nodeVersion}`);
 
     this.#project?.runCommand(`nvm install ${nodeVersion}`);

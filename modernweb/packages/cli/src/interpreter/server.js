@@ -1,12 +1,14 @@
-const Command = require("../command");
-const Expression = require("../expression");
-const Context = require("../context");
+const Command = require("./command");
+const Expression = require("./expression");
+const Context = require("./context");
 const http = require("http");
 const fs = require("fs");
-const { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } = require("constants");
 
 class ServerExpression extends Expression {
-  static interpret(/** @type {Context} */ context) {
+  /**
+   * @param {Context} context
+   */
+  interpret(context) {
     if (context.input?.[0].trim() === "server") {
       context.output = new ServerCommand(context);
     }
