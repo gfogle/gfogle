@@ -2,9 +2,3 @@
 This is the code for the Command Line Interface (CLI) that users interact with while scaffolding projects, creating controllers and models etc.
 
 The code follows two design patterns: [Interpreter](https://www.oodesign.com/interpreter-pattern.html) for taking user input _expressions_, generating a _context_ object with that input mapped to an output [Command](https://www.oodesign.com/command-pattern.html) which executes on that context.
-
-### Interpreter
-Since the CLI commands are a pseudo-grammar, using Interpreter makes sense for parsing commands like `new`, `server` etc. It consists of the following:
-
-- **Context** - the stdin (input) and then the **Command** (output) to invoke
--
