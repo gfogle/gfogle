@@ -4,9 +4,7 @@ const Project = require("../project").Project;
 const Context = require("./context");
 
 class NewExpression extends Expression {
-  /**
-   * @param {Context} context
-   */
+  /** @param {Context} context */
   interpret(context) {
     if (context.input?.[0].trim() === "new") {
       context.output = new NewCommand(context);
@@ -23,7 +21,8 @@ class NewCommand extends Command {
   #project = null;
   #NODE_VERSION = "14.15.0";
 
-  constructor(/** @type {Context} */ context) {
+  /** @param {Context} context */
+  constructor(context) {
     super();
 
     this.#context = context;

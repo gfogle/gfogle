@@ -11,9 +11,7 @@ class Context {
   /** @type {import('./command')?} */
   output = null;
 
-  /**
-   * @param {string[]} args
-   */
+  /** @param {string[]} args */
   constructor(args) {
     this.#input = [...args.slice(2)];
     this.output = null;

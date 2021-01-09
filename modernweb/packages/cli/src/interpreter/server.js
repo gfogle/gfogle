@@ -5,9 +5,7 @@ const http = require("http");
 const fs = require("fs");
 
 class ServerExpression extends Expression {
-  /**
-   * @param {Context} context
-   */
+  /** @param {Context} context */
   interpret(context) {
     if (context.input?.[0].trim() === "server") {
       context.output = new ServerCommand(context);
@@ -22,7 +20,8 @@ class ServerCommand extends Command {
   #root = null;
   #routes = { get: {}, post: {}, put: {}, del: {} };
 
-  constructor(/** @type {Context} */ context) {
+  /** @param {Context} context */
+  constructor(context) {
     super();
 
     this.#context = context;

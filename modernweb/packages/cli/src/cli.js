@@ -2,6 +2,7 @@
 
 const Context = require("./interpreter/context");
 
+/** @typeof {import('./interpreter/expression')[]} */
 const expressions = [
   require("./interpreter/domain").DomainExpression,
   require("./interpreter/new").NewExpression,
@@ -18,11 +19,11 @@ const expressions = [
       return context.output !== null;
     });
 
-    if (!context.output) {
-      throw new Error(`command ${process.argv.join(" ")} is not supported.`);
+    if (context.output) {
+      return context.output.execute();
     }
 
-    context.output.execute();
+    throw new Error(`command ${process.argv.join(" ")} is not supported.`);
   } catch (ex) {
     console.error(ex);
   }

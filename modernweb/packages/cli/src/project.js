@@ -2,7 +2,6 @@ const child_process = require("child_process");
 const fs = require("fs");
 
 /**
- * @class Project
  * @description a new modernweb Project with a name and directory path
  */
 class Project {
@@ -29,7 +28,8 @@ class Project {
     fs.mkdirSync(this.directory);
   }
 
-  createDirectory(/** @type {String} */ path) {
+  /** @param {String} path */
+  createDirectory(path) {
     fs.mkdirSync(`${this.directory}/${path}`);
   }
 
@@ -56,7 +56,8 @@ class Project {
     return fs.existsSync(this.directory);
   }
 
-  formatFile(/** @type {String} */ name) {
+  /** @param {String} name */
+  formatFile(name) {
     const prettier = `${this.directory}/node_modules/.bin/prettier`;
     const file = `${this.directory}/${name}`;
 
@@ -65,7 +66,8 @@ class Project {
     });
   }
 
-  removeDirectory(/** @type {String} **/ path = "") {
+  /** @param {String} path */
+  removeDirectory(path) {
     if (path === this.directory) {
       throw new Error(
         `Cannot remove the project directory itself. Did you mean .destroy()?`
@@ -97,7 +99,6 @@ class Project {
 
 class Domain extends Project {
   /**
-   * @constructor
    * @param {String} name
    * @param {String} directory
    */

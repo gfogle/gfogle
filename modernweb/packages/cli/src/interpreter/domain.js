@@ -4,9 +4,7 @@ const Expression = require("./expression");
 const Context = require("./context");
 
 class DomainExpression extends Expression {
-  /**
-   * @param {Context} context
-   */
+  /** @param {Context} context */
   interpret(context) {
     if (context?.input?.[0].trim() === "domain" && context?.input?.[1]) {
       context.output = new DomainCommand(context);
@@ -22,7 +20,8 @@ class DomainCommand extends Command {
   /** @type {Domain?} */
   #domain = null;
 
-  constructor(/** @type {Context} */ context) {
+  /** @param {Context} context */
+  constructor(context) {
     super();
 
     this.#context = context;
