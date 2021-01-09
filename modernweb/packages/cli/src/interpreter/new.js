@@ -34,25 +34,25 @@ class NewCommand extends Command {
 
   execute() {
     this.#root = process.cwd();
-    this.#project = this.#parseArguments();
+    this.#project = this.parseArguments();
 
     // TODO: introduce artificial delays between steps with better messaging / colors
     //       to describe whats happening and why
 
     try {
       this.#project.create();
-      this.#createPackageJson();
-      this.#installNode();
+      this.createPackageJson();
+      this.installNode();
 
-      this.#createProjectFolders();
-      this.#createReadme();
+      this.createProjectFolders();
+      this.createReadme();
 
-      this.#createEditorConfig();
-      this.#createGitignore();
-      this.#createRobots();
-      this.#createPrettierIgnore();
-      this.#createTsConfig();
-      this.#createProjectConfigs();
+      this.createEditorConfig();
+      this.createGitignore();
+      this.createRobots();
+      this.createPrettierIgnore();
+      this.createTsConfig();
+      this.createProjectConfigs();
 
       // TODO: create the homepage domain
     } catch (ex) {
@@ -62,8 +62,8 @@ class NewCommand extends Command {
     }
   }
 
-  // @ts-ignore method cannot be private
-  #createEditorConfig() {
+  /** @private */
+  createEditorConfig() {
     // TODO: format this w/o prettier erroring
     this.#project?.createFile(
       ".editorconfig",
@@ -83,8 +83,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createGitignore() {
+  /** @private */
+  createGitignore() {
     // TODO: format this w/o prettier erroring
     this.#project?.createFile(
       ".gitignore",
@@ -99,8 +99,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createPackageJson() {
+  /** @private */
+  createPackageJson() {
     // TODO: when eslint supports private class fields w/o needing babel-eslint, update this?
     this.#project?.createFile(
       "package.json",
@@ -132,8 +132,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createPrettierIgnore() {
+  /** @private */
+  createPrettierIgnore() {
     // TODO: format this w/o prettier erroring
     this.#project?.createFile(
       ".prettierignore",
@@ -145,8 +145,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createProjectConfigs() {
+  /** @private */
+  createProjectConfigs() {
     const projectConfig = JSON.stringify(
       {
         server: {
@@ -164,8 +164,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createProjectFolders() {
+  /** @private */
+  createProjectFolders() {
     const topLevelFolders = [
       "src",
       "src/config",
@@ -179,8 +179,8 @@ class NewCommand extends Command {
     }
   }
 
-  // @ts-ignore method cannot be private
-  #createReadme() {
+  /** @private */
+  createReadme() {
     this.#project?.createFile(
       "README.md",
       `
@@ -191,8 +191,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createRobots() {
+  /** @private */
+  createRobots() {
     // TODO: format this w/o prettier erroring
     this.#project?.createFile(
       "public/robots.txt",
@@ -203,8 +203,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createTsConfig() {
+  /** @private */
+  createTsConfig() {
     this.#project?.createFile(
       "tsconfig.json", // https://www.typescriptlang.org/tsconfig
       JSON.stringify(
@@ -232,8 +232,8 @@ class NewCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #installNode() {
+  /** @private */
+  installNode() {
     const nodeVersion = `v${this.#NODE_VERSION}`;
 
     // TODO: what if they dont have NVM installed?
@@ -248,13 +248,13 @@ class NewCommand extends Command {
 
   /**
    * @function parseArguments
+   * @private
    * @description parses inputs in context into a Project
    *
    * @throws {Error}
    * @returns {Project} a project object instance with details from user
    */
-  // @ts-ignore method cannot be private
-  #parseArguments() {
+  parseArguments() {
     const name = this.#context?.input?.[1];
 
     if (!name) {

@@ -33,7 +33,7 @@ class ServerCommand extends Command {
     const config = require(`${this.#root}/src/config/config`);
     const { port = 3000, host = "localhost" } = config.server;
 
-    this.#loadDomains();
+    this.loadDomains();
     // TODO: support https?
     const instance = http.createServer((req, res) => {
       try {
@@ -60,8 +60,8 @@ class ServerCommand extends Command {
     });
   }
 
-  // @ts-ignore method cannot be private
-  #loadDomains() {
+  /** @private */
+  loadDomains() {
     const domainsRoot = `${this.#root}/src/domains`;
     const domains = fs.readdirSync(domainsRoot);
 
@@ -74,22 +74,22 @@ class ServerCommand extends Command {
 
           routes({
             get: (/** @type {Object} */ opts) =>
-              this.#loadRoute(location, {
+              this.loadRoute(location, {
                 ...opts,
                 method: "get",
               }),
             post: (/** @type {Object} */ opts) =>
-              this.#loadRoute(location, {
+              this.loadRoute(location, {
                 ...opts,
                 method: "post",
               }),
             put: (/** @type {Object} */ opts) =>
-              this.#loadRoute(location, {
+              this.loadRoute(location, {
                 ...opts,
                 method: "put",
               }),
             del: (/** @type {Object} */ opts) =>
-              this.#loadRoute(location, {
+              this.loadRoute(location, {
                 ...opts,
                 method: "del",
               }),
@@ -99,8 +99,13 @@ class ServerCommand extends Command {
     }
   }
 
-  // @ts-ignore method cannot be private
-  #loadRoute(domain, opts = {}) {
+  /**
+   * @private
+   *
+   * @param {string} domain - full path to the domain's root folder
+   * @param {object} opts - http-related information for declaring a route
+   */
+  loadRoute(domain, opts = {}) {
     try {
       // @ts-ignore destructuring
       const { method, url, handler } = opts;

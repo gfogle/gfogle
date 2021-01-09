@@ -30,14 +30,14 @@ class DomainCommand extends Command {
   }
 
   execute() {
-    this.#domain = this.#parseArguments();
+    this.#domain = this.parseArguments();
 
     try {
       this.#domain.create();
-      this.#createDomainFolders();
-      this.#createControllerFile();
-      this.#createDomainConfigs();
-      this.#createRoutesFile();
+      this.createDomainFolders();
+      this.createControllerFile();
+      this.createDomainConfigs();
+      this.createRoutesFile();
       // TODO: this.#createRoutesFile();
     } catch (ex) {
       if (ex.code != "EEXIST") {
@@ -48,8 +48,8 @@ class DomainCommand extends Command {
     }
   }
 
-  // @ts-ignore method cannot be private
-  #createControllerFile() {
+  /** @private */
+  createControllerFile() {
     // TODO: this wont get formatted because prettier needs to run at the global root not the domain root
     this.#domain?.createFile(
       `controllers/${this.#domain.name}_controller.js`,
@@ -72,8 +72,8 @@ class DomainCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createDomainConfigs() {
+  /** @private */
+  createDomainConfigs() {
     const projectConfig = JSON.stringify({}, null, 2);
 
     this.#domain?.createFile(
@@ -82,8 +82,8 @@ class DomainCommand extends Command {
     );
   }
 
-  // @ts-ignore method cannot be private
-  #createDomainFolders() {
+  /** @private */
+  createDomainFolders() {
     const topLevelFolders = ["config", "controllers"];
 
     for (let i = 0; i < topLevelFolders.length; i++) {
@@ -91,8 +91,8 @@ class DomainCommand extends Command {
     }
   }
 
-  // @ts-ignore method cannot be private
-  #createRoutesFile() {
+  /** @private */
+  createRoutesFile() {
     // TODO: add type annotations?
     this.#domain?.createFile(
       "config/routes.js",
@@ -106,13 +106,13 @@ class DomainCommand extends Command {
 
   /**
    * @function parseArguments
+   * @private
    * @description parses inputs in context into a Domain
    *
    * @throws {Error}
    * @returns {Domain} a domain object instance with details from user
    */
-  // @ts-ignore method cannot be private
-  #parseArguments() {
+  parseArguments() {
     const name = this.#context?.input?.[1];
     if (!name) {
       throw new Error(`Running the domain command requires a domain name`);
