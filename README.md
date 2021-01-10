@@ -10,12 +10,12 @@ a CLI to generate a monorepo template project with the batteries-included setup 
 
 The goal is to create monorepos that ideally hundreds - even thousands - of developers could work in without all the negative connotations that come along with the word "monorepo" like slow review cycles, excessive storage size, etc.
 
-### 🔋 **mweb**
-a CLI to generate a Ruby on Rails inspired Node.js web application with minimal dependencies.
+### 🔋 **modernweb**
+a CLI to generate a Node.js web application with minimal dependencies inspired by other projects like [Ruby on Rails](https://github.com/rails/rails), [wmr](https://github.com/preactjs/wmr) and [snowpack](https://github.com/snowpackjs/snowpack).
 
-The project experiments with newer technologies like [Snowpack](https://www.snowpack.dev/) and [Import Maps](https://github.com/WICG/import-maps) to get away from the large amount of setup baked into web applications today.
+The project experiments with newer technologies like [Import Maps](https://github.com/WICG/import-maps) to get away from the large amount of setup baked into web applications today.
 
-The goal is to conceptually leverage paradigms from Ruby on Rails, especially [Engines](https://guides.rubyonrails.org/engines.html), to create a microfrontend-like developer workflow while also using as much vanilla HTML, CSS and Javascript as possible.
+The goal is to conceptually leverage paradigms from other projects, like [Rails Engines](https://guides.rubyonrails.org/engines.html), to create a microfrontend-like developer workflow for teams of any size while also using as much vanilla HTML, CSS and Javascript as possible.
 
 <!--
 **gfogle/gfogle** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
