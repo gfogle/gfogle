@@ -1,6 +1,6 @@
-const Command = require("./command");
-const Expression = require("./expression");
-const Context = require("./context");
+const Command = require("../command");
+const Expression = require("../expression");
+const Context = require("../context");
 const http = require("http");
 const fs = require("fs");
 

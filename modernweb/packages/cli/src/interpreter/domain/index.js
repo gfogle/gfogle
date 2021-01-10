@@ -1,7 +1,7 @@
-const Command = require("./command");
-const Domain = require("../project").Domain;
-const Expression = require("./expression");
-const Context = require("./context");
+const Command = require("../command");
+const Domain = require("../../project").Domain;
+const Expression = require("../expression");
+const Context = require("../context");
 
 class DomainExpression extends Expression {
   /** @param {Context} context */

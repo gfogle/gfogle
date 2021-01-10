@@ -105,3 +105,4 @@ dist
 
 # modernweb CLI
 modernweb/packages/cli/playground/**/*
+modernweb/packages/cli/dist
