@@ -14,22 +14,10 @@ class ServerExpression extends Expression {
 }
 
 class ServerCommand extends Command {
-  /** @type {Context?} */
-  #context = null;
-  /** @type {String?} */
-  #root = null;
   #routes = { get: {}, post: {}, put: {}, del: {} };
 
-  /** @param {Context} context */
-  constructor(context) {
-    super();
-
-    this.#context = context;
-    this.#root = process.cwd();
-  }
-
   execute() {
-    const config = require(`${this.#root}/src/config/config`);
+    const config = require(`${this.root}/src/config/config`);
     const { port = 3000, host = "localhost" } = config.server;
 
     this.loadDomains();
@@ -61,7 +49,7 @@ class ServerCommand extends Command {
 
   /** @private */
   loadDomains() {
-    const domainsRoot = `${this.#root}/src/domains`;
+    const domainsRoot = `${this.root}/src/domains`;
     const domains = fs.readdirSync(domainsRoot);
 
     for (let i = 0; i < domains.length; i++) {

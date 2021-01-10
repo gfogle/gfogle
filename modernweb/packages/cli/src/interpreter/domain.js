@@ -13,20 +13,8 @@ class DomainExpression extends Expression {
 }
 
 class DomainCommand extends Command {
-  /** @type {Context?} */
-  #context = null;
-  /** @type {String?} */
-  #root = null;
   /** @type {Domain?} */
   #domain = null;
-
-  /** @param {Context} context */
-  constructor(context) {
-    super();
-
-    this.#context = context;
-    this.#root = process.cwd();
-  }
 
   execute() {
     this.#domain = this.parseArguments();
@@ -112,7 +100,7 @@ class DomainCommand extends Command {
    * @returns {Domain} a domain object instance with details from user
    */
   parseArguments() {
-    const name = this.#context?.input?.[1];
+    const name = this.context?.input?.[1];
     if (!name) {
       throw new Error(`Running the domain command requires a domain name`);
     }
