@@ -60,7 +60,6 @@ module.exports.PackageJson = ({ name }) =>
         semi: true,
       },
       scripts: {
-        "lint:node": "./node_modules/.bin/tsc --diagnostics --noEmit",
         // TODO: once published to NPM have this invoke mweb cli
         start: "./node_modules/.bin/ts-node ./src/server.js",
       },

@@ -33,18 +33,12 @@ class NewCommand extends Command {
     try {
       this.#project.create();
       this.createProjectFolders();
-
-      this.#project?.createFile(
-        "package.json",
-        Templates.PackageJson({ name: this.#project?.name })
-      );
+      this.installNode();
       this.#project?.createFile(
         "README.md",
         Templates.ReadMe({ name: this.#project?.name }),
         true
       );
-      this.#project?.createFile(".npmrc", "save-exact=true\n");
-      this.#project?.createFile(".nvmrc", `v${Templates.NodeVersion}`);
       this.#project?.createFile(".editorconfig", Templates.EditorConfig);
       this.#project?.createFile(".gitignore", Templates.GitIgnore);
       this.#project?.createFile("public/robots.txt", Templates.RobotsTxt);
@@ -55,8 +49,6 @@ class NewCommand extends Command {
         Templates.BaseConfig,
         true
       );
-
-      this.installNode();
 
       // TODO: create the homepage domain
     } catch (ex) {
@@ -84,7 +76,12 @@ class NewCommand extends Command {
   /** @private */
   installNode() {
     // TODO: what if they dont have NVM installed?
-
+    this.#project?.createFile(".npmrc", "save-exact=true\n");
+    this.#project?.createFile(".nvmrc", `v${Templates.NodeVersion}`);
+    this.#project?.createFile(
+      "package.json",
+      Templates.PackageJson({ name: this.#project?.name })
+    );
     this.#project?.runCommand(`nvm install v${Templates.NodeVersion}`);
     this.#project?.runCommand(`nvm use`);
     this.#project?.runCommand(`npm install`, { shell: true });
