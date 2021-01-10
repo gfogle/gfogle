@@ -7,6 +7,7 @@ class Command {
    */
   context = null;
   /**
+   * @description the root directory the command was executed from
    * @type {String?}
    * @protected
    */
