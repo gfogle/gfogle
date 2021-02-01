@@ -1,0 +1,94 @@
+#!/usr/bin/env node
+
+const child_process = require('child_process');
+const fs = require('fs');
+const esbuild = require('esbuild');
+const postcss = require('postcss');
+
+async function stylesheets(dir) {
+  const modules = fs.readdirSync(`${dir}`);
+
+  for (let i = 0; i < modules.length; i++) {
+    if (!fs.existsSync(`${dir}/${modules[i]}/assets/stylesheets/entrypoints`)) {
+      continue;
+    }
+
+    const module = modules[i];
+    const entries = fs.readdirSync(
+      `${dir}/${module}/assets/stylesheets/entrypoints`,
+    );
+
+    for (let j = 0; j < entries.length; j++) {
+      const entry = `${dir}/${module}/assets/stylesheets/entrypoints/${entries[j]}`;
+      const css = fs.readFileSync(entry);
+      const result = await postcss([
+        require('autoprefixer'),
+        require('postcss-preset-env')({
+          grid: true,
+        }),
+        require('cssnano')({
+          preset: 'default',
+        }),
+      ]).process(css, {
+        from: entry,
+        to: `${__dirname}/../dist/public/${entries[j]}`,
+      });
+
+      fs.writeFileSync(`${__dirname}/../dist/public/${entries[j]}`, result.css);
+    }
+  }
+}
+
+async function javascripts(dir) {
+  const modules = fs.readdirSync(`${dir}`);
+
+  for (let i = 0; i < modules.length; i++) {
+    if (!fs.existsSync(`${dir}/${modules[i]}/assets/javascripts/entrypoints`)) {
+      continue;
+    }
+
+    const module = modules[i];
+    const entries = fs.readdirSync(
+      `${dir}/${module}/assets/javascripts/entrypoints`,
+    );
+
+    for (let j = 0; j < entries.length; j++) {
+      await esbuild
+        .build({
+          entryPoints: [
+            `${dir}/${modules[i]}/assets/javascripts/entrypoints/${entries[j]}`,
+          ],
+          bundle: true,
+          format: 'esm',
+          minify: true,
+          outfile: `${__dirname}/../dist/public/${entries[j].replace(
+            '.jsx',
+            '.js',
+          )}`,
+        })
+        .catch(() => process.exit(1));
+
+      await esbuild
+        .build({
+          entryPoints: [
+            `${dir}/${modules[i]}/assets/javascripts/entrypoints/${entries[j]}`,
+          ],
+          bundle: true,
+          format: 'iife',
+          minify: true,
+          outfile: `${__dirname}/../dist/public/${entries[j].replace(
+            '.jsx',
+            '.nomodule.js',
+          )}`,
+        })
+        .catch(() => process.exit(1));
+    }
+  }
+}
+
+(async () => {
+  const dir = `${__dirname}/../src/modules`;
+
+  await javascripts(dir);
+  await stylesheets(dir);
+})();

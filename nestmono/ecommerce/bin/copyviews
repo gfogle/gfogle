@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+
+function ensureDirectoryExists(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+}
+
+function log(msg) {
+  console.log(msg);
+}
+
+async function copyviews(dir) {
+  ensureDirectoryExists(`${__dirname}/../dist/views`);
+
+  const modules = fs.readdirSync(`${dir}`);
+
+  for (let i = 0; i < modules.length; i++) {
+    if (!fs.existsSync(`${dir}/${modules[i]}/views`)) {
+      continue;
+    }
+
+    const module = modules[i];
+
+    log(`Copying views for ${module}`);
+    ensureDirectoryExists(`${__dirname}/../dist/views/${modules[i]}`);
+
+    const views = fs.readdirSync(`${dir}/${module}/views`);
+
+    for (let j = 0; j < views.length; j++) {
+      const view = views[j];
+      const source = `${dir}/${module}/views/${view}`;
+      const dest = `${__dirname}/../dist/views/${module}/${view}`;
+
+      log(`Copying ${view}`);
+      fs.copyFileSync(source, dest);
+    }
+  }
+}
+
+(async () => {
+  log(`Copying view files to /dist folder`);
+
+  await copyviews(`${__dirname}/../src/modules`);
+
+  process.exit(0);
+})();

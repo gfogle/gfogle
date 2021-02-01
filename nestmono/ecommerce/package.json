@@ -1,0 +1,98 @@
+{
+  "name": "ecommerce",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=14.15.0"
+  },
+  "scripts": {
+    "build": "make build",
+    "start": "make start",
+    "lint": "make lint",
+    "test": "make test"
+  },
+  "dependencies": {
+    "@nestjs/common": "7.6.7",
+    "@nestjs/core": "7.6.7",
+    "@nestjs/platform-fastify": "7.6.7",
+    "ejs": "3.1.5",
+    "fastify": "3.11.0",
+    "fastify-static": "3.4.0",
+    "point-of-view": "4.10.0",
+    "reflect-metadata": "0.1.13",
+    "rimraf": "3.0.2",
+    "rxjs": "6.6.3"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "7.5.1",
+    "@nestjs/schematics": "7.1.3",
+    "@nestjs/testing": "7.5.1",
+    "@types/jest": "26.0.15",
+    "@types/node": "14.14.6",
+    "@typescript-eslint/eslint-plugin": "4.6.1",
+    "@typescript-eslint/parser": "4.6.1",
+    "autoprefixer": "10.2.4",
+    "cssnano": "4.1.10",
+    "esbuild": "0.8.38",
+    "eslint": "7.12.1",
+    "eslint-config-prettier": "7.1.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "htm": "3.0.4",
+    "jest": "26.6.3",
+    "postcss": "8.2.4",
+    "postcss-preset-env": "6.7.0",
+    "preact": "10.5.12",
+    "prettier": "2.1.2",
+    "ts-jest": "26.4.3",
+    "ts-loader": "8.0.8",
+    "ts-node": "9.0.0",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.0.5"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "tsconfig.json",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint/eslint-plugin"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ],
+    "root": true,
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "ignorePatterns": [],
+    "rules": {
+      "@typescript-eslint/interface-name-prefix": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-restricted-imports": [
+        "error",
+        {
+          "paths": [
+            {
+              "name": "react",
+              "message": "React ( and accompanying packages ) is very large, use Preact instead!"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

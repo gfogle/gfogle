@@ -9,5 +9,9 @@
   },
   "[json]": {
     "editor.formatOnSave": true
+  },
+  "[makefile]": {
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": true
   }
 }
