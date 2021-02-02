@@ -43,7 +43,30 @@ RUN apk update && \
 
 COPY --from=build-stage $APP_ROOT $APP_ROOT
 
-COPY usr/supervisord/local.conf /etc/supervisord.conf
+# COPY usr/supervisord/local.conf /etc/supervisord.conf
+RUN echo $' \n\
+[supervisord] \n\
+nodaemon=true               ; (start in foreground if true;default false) \n\
+\n\
+[program:build] \n\
+autostart=true \n\
+autorestart=false \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+redirect_stderr=true \n\
+stdout_logfile_maxbytes=0 \n\
+command=/bin/sh -c "make build" \n\
+priority=5 \n\
+\n\
+[program:nest] \n\
+autostart=true \n\
+autorestart=false \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+redirect_stderr=true \n\
+stdout_logfile_maxbytes=0 \n\
+command=/bin/sh -c "make start" \n\
+priority=10 \n' >> /etc/supervisord.conf
 
 # TODO: make this an arg
 EXPOSE 3000

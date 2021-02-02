@@ -102,7 +102,10 @@
     "watch": [
       "src/"
     ],
-    "ignore": [],
+    "ignore": [
+      "dist/",
+      "*.spec.ts"
+    ],
     "ext": "ts tsx js jsx json ejs"
   },
   "prettier": {
