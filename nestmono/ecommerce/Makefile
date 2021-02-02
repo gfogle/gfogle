@@ -14,7 +14,7 @@ install:
 	npm install
 
 lint:
-	./node_modules/.bin/eslint ./src/**/*.ts
+	./node_modules/.bin/eslint --ext ts,tsx,js,jsx ./src
 
 # TODO: add watch ability for local dev
 # TODO: node dist/main if NODE_ENV is production
@@ -28,7 +28,7 @@ test:
 	make test_e2e
 
 test_e2e:
-	./node_modules/.bin/jest --config ./config/e2e.json
+	./node_modules/.bin/jest --config ./config/jest.e2e.json
 
 test_unit:
-	./node_modules/.bin/jest --config ./config/unit.json
+	./node_modules/.bin/jest --config ./config/jest.unit.json

@@ -35,13 +35,16 @@
     "@typescript-eslint/eslint-plugin": "4.6.1",
     "@typescript-eslint/parser": "4.6.1",
     "autoprefixer": "10.2.4",
+    "browserslist": "4.16.3",
     "cssnano": "4.1.10",
     "esbuild": "0.8.38",
     "eslint": "7.12.1",
     "eslint-config-prettier": "7.1.0",
+    "eslint-plugin-compat": "3.9.0",
     "eslint-plugin-prettier": "3.1.4",
     "htm": "3.0.4",
     "jest": "26.6.3",
+    "nodemon": "2.0.7",
     "postcss": "8.2.4",
     "postcss-preset-env": "6.7.0",
     "preact": "10.5.12",
@@ -52,11 +55,9 @@
     "tsconfig-paths": "3.9.0",
     "typescript": "4.0.5"
   },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "all"
-  },
+  "browserslist": [
+    "defaults"
+  ],
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -64,12 +65,14 @@
       "sourceType": "module"
     },
     "plugins": [
-      "@typescript-eslint/eslint-plugin"
+      "@typescript-eslint/eslint-plugin",
+      "eslint-plugin-compat"
     ],
     "extends": [
       "plugin:@typescript-eslint/recommended",
       "prettier/@typescript-eslint",
-      "plugin:prettier/recommended"
+      "plugin:prettier/recommended",
+      "plugin:compat/recommended"
     ],
     "root": true,
     "env": {
@@ -94,5 +97,17 @@
         }
       ]
     }
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src/"
+    ],
+    "ignore": [],
+    "ext": "ts tsx js jsx json ejs"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
