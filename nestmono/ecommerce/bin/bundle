@@ -100,8 +100,14 @@ async function javascripts(dir) {
 (async () => {
   const dir = `${__dirname}/../src/modules`;
 
-  // TODO: make these response to args like --js or --css
+  console.log(process.argv);
 
-  await javascripts(dir);
-  await stylesheets(dir);
+  if (process.argv.length == 2) {
+    await javascripts(dir);
+    await stylesheets(dir);
+  } else if (process.argv[2] == '--css') {
+    await stylesheets(dir);
+  } else if (process.argv[2] == '--js') {
+    await javascripts(dir);
+  }
 })();

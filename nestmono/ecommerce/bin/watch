@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+const { spawnSync } = require('child_process');
+const chokidar = require('chokidar');
+
+function ejs() {
+  console.debug('EJS file changed ', arguments[0]);
+
+  spawnSync('node bin/copyviews', {
+    stdio: 'inherit',
+    cwd: '../',
+    shell: false,
+  });
+}
+
+function css() {
+  console.debug('CSS file changed ', arguments[0]);
+
+  spawnSync('node bin/bundle --css', {
+    stdio: 'inherit',
+    cwd: '../',
+    shell: false,
+  });
+}
+
+function js() {
+  console.debug('JS file changed ', arguments[0]);
+
+  spawnSync('node bin/bundle --js', {
+    stdio: 'inherit',
+    cwd: '../',
+    shell: false,
+  });
+}
+
+const watchers = [];
+const globs = [
+  ['src/**/*.ejs', ['add', ejs], ['change', ejs], ['unlink', () => {}]],
+  ['src/**/assets/**/*.css', ['add', css], ['change', css], ['unlink', css]],
+  [
+    'src/**/assets/**/*.{js,jsx,ts,tsx}',
+    ['add', js],
+    ['change', js],
+    ['unlink', js],
+  ],
+];
+
+globs.forEach((g) => {
+  const watcher = chokidar.watch(g[0], {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+  });
+
+  watchers.push(watcher);
+
+  watcher.on('ready', () => {
+    console.debug(`Watcher is ready for ${g[0]}`);
+    for (let i = 1; i < g.length; i++) {
+      watcher.on(g[i][0], g[i][1]);
+    }
+  });
+});
+
+process.on('exit', async () => {
+  watchers.forEach(async (w) => await w.close());
+});
