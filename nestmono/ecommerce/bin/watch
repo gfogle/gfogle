@@ -5,9 +5,9 @@ const chokidar = require('chokidar');
 function ejs() {
   console.debug('EJS file changed ', arguments[0]);
 
-  spawnSync('node bin/copyviews', {
+  spawnSync('node', ['bin/copyviews'], {
     stdio: 'inherit',
-    cwd: '../',
+    cwd: `${__dirname}/../`,
     shell: false,
   });
 }
@@ -15,9 +15,9 @@ function ejs() {
 function css() {
   console.debug('CSS file changed ', arguments[0]);
 
-  spawnSync('node bin/bundle --css', {
+  spawnSync('node', ['bin/bundle', '--css'], {
     stdio: 'inherit',
-    cwd: '../',
+    cwd: `${__dirname}/../`,
     shell: false,
   });
 }
@@ -25,9 +25,9 @@ function css() {
 function js() {
   console.debug('JS file changed ', arguments[0]);
 
-  spawnSync('node bin/bundle --js', {
+  spawnSync('node', ['bin/bundle', '--js'], {
     stdio: 'inherit',
-    cwd: '../',
+    cwd: `${__dirname}/../`,
     shell: false,
   });
 }

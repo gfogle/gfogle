@@ -5,6 +5,8 @@ const esbuild = require('esbuild');
 const postcss = require('postcss');
 
 async function stylesheets(dir) {
+  console.log(`Rebuilding css entrypoints`);
+
   const modules = fs.readdirSync(`${dir}`);
 
   for (let i = 0; i < modules.length; i++) {
@@ -36,9 +38,13 @@ async function stylesheets(dir) {
       fs.writeFileSync(`${__dirname}/../dist/public/${entries[j]}`, result.css);
     }
   }
+
+  console.log(`Done rebuilding`);
 }
 
 async function javascripts(dir) {
+  console.log(`Rebuilding javascript entrypoints`);
+
   const modules = fs.readdirSync(`${dir}`);
 
   for (let i = 0; i < modules.length; i++) {
@@ -95,12 +101,14 @@ async function javascripts(dir) {
         .catch(() => process.exit(1));
     }
   }
+
+  console.log(`Done rebuilding`);
 }
 
 (async () => {
   const dir = `${__dirname}/../src/modules`;
 
-  console.log(process.argv);
+  console.debug(process.argv[2]);
 
   if (process.argv.length == 2) {
     await javascripts(dir);

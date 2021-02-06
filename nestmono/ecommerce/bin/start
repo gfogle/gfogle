@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+const { spawn } = require('child_process');
+
+async function execute(cmd, args) {
+  try {
+    const watcher = spawn(cmd, args, {
+      cwd: `${__dirname}/../`,
+      stdio: 'inherit',
+      shell: false,
+    });
+
+    watcher.on('error', (err) =>
+      console.error(`Error starting ${cmd} => ${err.message}`),
+    );
+
+    process.on('exit', () => watcher.kill());
+  } catch (err) {
+    console.error(`Failed to create watcher for ${cmd} => ${err.message}`);
+    process.exit(1);
+  }
+}
+
+(async () => {
+  if (process.argv[2] == '--dev') {
+    execute('node', ['bin/watch']);
+  }
+
+  execute('./node_modules/.bin/nest', ['start']);
+})();

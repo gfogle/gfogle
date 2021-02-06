@@ -15,12 +15,14 @@ install:
 	npm install
 
 lint:
+	./node_modules/.bin/htmlhint -c ./.htmlhintrc ./src/modules/**/views/**/*.ejs && \
 	./node_modules/.bin/eslint --ext ts,tsx,js,jsx ./src
+
 
 # TODO: add watch ability for local dev
 # TODO: node dist/main if NODE_ENV is production
 start:
-	./node_modules/.bin/nest start
+	node bin/start --dev
 
 test:
 	# Lint files first to avoid bad compiles, wasted cycles etc.

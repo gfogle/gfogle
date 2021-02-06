@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+(async () => {
+  // TODO: parse the module name
+  // TODO: bail if the module exists
+  // TODO: make the module folder in src/modules
+  // TODO: make the assets folder with a default "example" entry for js and css
+  // TODO: make controllers folder with an example controller
+  // TODO: make empty services folder
+  // TODO: make view with example.ejs
+  // TODO: make the module
+})();
