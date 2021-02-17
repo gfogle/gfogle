@@ -1,12 +1,286 @@
 #!/usr/bin/env node
 
-(async () => {
-  // TODO: parse the module name
-  // TODO: bail if the module exists
-  // TODO: make the module folder in src/modules
-  // TODO: make the assets folder with a default "example" entry for js and css
-  // TODO: make controllers folder with an example controller
-  // TODO: make empty services folder
-  // TODO: make view with example.ejs
-  // TODO: make the module
-})();
+// TODO: this entire file creation should get refactored to use modernweb
+
+const fs = require('fs');
+const child_process = require('child_process');
+
+(async (args) => {
+  const module = {
+    name: args[0],
+    directory: `${__dirname}/../src/modules/${args[0]}`,
+    pascalName: `${args[0]?.toUpperCase()}${args[0]?.slice(1)}`,
+  };
+
+  if (!module.name) {
+    exitWithError(`Must provide a module name`);
+  } else if (fs.existsSync(module.directory)) {
+    exitWithError(`Directory with name ${module.name} already exists`);
+  }
+
+  try {
+    fs.mkdirSync(module.directory);
+
+    fs.mkdirSync(`${module.directory}/assets`);
+    makeJavascripts(module);
+    makeStylesheets(module);
+
+    makeControllers(module);
+    makeServices(module);
+    makeViews(module);
+    makeModule(module);
+  } catch (ex) {
+    fs.rmdirSync(module.directory, {
+      recursive: true,
+    });
+
+    exitWithError(ex.message);
+  }
+})(Array.from(process.argv).slice(2));
+
+function exitWithError(msg) {
+  console.error(`Must provide a module name`);
+  process.exit(1);
+}
+
+function makeAndFormatFile(file, contents) {
+  const prettier = `${__dirname}/../node_modules/.bin/prettier`;
+
+  fs.writeFileSync(file, contents, 'utf8');
+  child_process.spawnSync(`${prettier} "${file}" --write`, {
+    stdio: `inherit`,
+    cwd: __dirname,
+    shell: true,
+  });
+}
+
+function makeJavascripts({ name, directory }) {
+  fs.mkdirSync(`${directory}/assets/javascripts`);
+  fs.mkdirSync(`${directory}/assets/javascripts/entrypoints`);
+
+  makeAndFormatFile(
+    `${directory}/assets/javascripts/.eslintrc.json`,
+    JSON.stringify({
+      env: {
+        browser: true,
+      },
+    }),
+  );
+
+  // TODO: add a --with-jsx option to make this a preact-based entrypoint
+  // TODO: make a test file?
+
+  makeAndFormatFile(
+    `${directory}/assets/javascripts/entrypoints/${name}.js`,
+    `
+    // This file will get bundled and included automatically in views/${name}.ejs
+    `,
+  );
+}
+
+function makeStylesheets({ name, directory }) {
+  fs.mkdirSync(`${directory}/assets/stylesheets`);
+  fs.mkdirSync(`${directory}/assets/stylesheets/entrypoints`);
+
+  makeAndFormatFile(
+    `${directory}/assets/stylesheets/entrypoints/${name}.css`,
+    `
+    /* This file will get bundled and included automatically in views/${name}.ejs */
+
+    * { box-sizing: border-box; }
+  `,
+  );
+}
+
+function makeControllers({ name, directory, pascalName }) {
+  fs.mkdirSync(`${directory}/controllers`);
+
+  makeAndFormatFile(
+    `${directory}/controllers/controller.ts`,
+    `
+    import { Controller, Get, Render } from '@nestjs/common';
+    import ${pascalName}Service from '../services/service';
+
+    @Controller()
+    export default class ${pascalName}Controller {
+      constructor(private readonly service: ${pascalName}Service) {}
+
+      @Get('/${name}')
+      @Render('${name}/${name}.ejs')
+      getView() {
+        return;
+      }
+    }
+    `,
+  );
+  makeAndFormatFile(
+    `${directory}/controllers/controller.spec.ts`,
+    `
+    import { Test, TestingModule } from '@nestjs/testing';
+    import ${pascalName}Controller from './controller';
+    import ${pascalName}Service from '../services/service';
+
+    describe('${pascalName}Controller', () => {
+      let controller: ${pascalName}Controller;
+      let service: ${pascalName}Service;
+
+      beforeEach(async () => {
+        const app: TestingModule = await Test.createTestingModule({
+          controllers: [${pascalName}Controller],
+          providers: [${pascalName}Service],
+        }).compile();
+
+        controller = app.get<${pascalName}Controller>(${pascalName}Controller);
+        service = app.get<${pascalName}Service>(${pascalName}Service);
+      });
+
+      describe('/${name}', () => {
+        it('renders', () => {
+          controller.getView();
+        });
+      });
+    });
+  `,
+  );
+  makeAndFormatFile(
+    `${directory}/controllers/controller.e2e.spec.ts`,
+    `
+    import { Test, TestingModule } from '@nestjs/testing';
+    import {
+      NestFastifyApplication,
+      FastifyAdapter,
+    } from '@nestjs/platform-fastify';
+    import { join } from 'path';
+    import Module from '../module';
+
+    describe('Controller (e2e)', () => {
+      let app: NestFastifyApplication;
+
+      beforeEach(async () => {
+        const moduleFixture: TestingModule = await Test.createTestingModule({
+          imports: [Module],
+        }).compile();
+
+        app = moduleFixture.createNestApplication<NestFastifyApplication>(
+          new FastifyAdapter(),
+        );
+
+        app.setViewEngine({
+          engine: {
+            ejs: require('ejs'),
+          },
+          templates: join(__dirname, '../../../../dist/views'),
+        });
+
+        await app.init();
+        await app.getHttpAdapter().getInstance().ready();
+      });
+
+      afterEach(async () => {
+        await app.close();
+      });
+
+      it('/${name} (GET)', () => {
+        return app
+          .inject({
+            method: 'GET',
+            url: '/${name}',
+          })
+          .then(({ statusCode }) => {
+            expect(statusCode).toBe(200);
+          });
+      });
+    });
+  `,
+  );
+}
+
+function makeServices({ directory, pascalName }) {
+  fs.mkdirSync(`${directory}/services`);
+
+  makeAndFormatFile(
+    `${directory}/services/service.ts`,
+    `
+    import { Injectable } from '@nestjs/common';
+
+    @Injectable()
+    export default class ${pascalName}Service {}
+  `,
+  );
+
+  makeAndFormatFile(
+    `${directory}/services/service.spec.ts`,
+    `
+    import { Test } from '@nestjs/testing';
+    import ${pascalName}Service from './service';
+
+    describe('${pascalName}Service', () => {
+      let service: ${pascalName}Service;
+
+      beforeEach(async () => {
+        const app = await Test.createTestingModule({
+          controllers: [],
+          providers: [${pascalName}Service],
+        }).compile();
+
+        service = app.get<${pascalName}Service>(${pascalName}Service);
+      });
+
+      it('is true', () => {
+        expect(true).toBe(true);
+      });
+    });
+  `,
+  );
+}
+
+function makeViews({ name, directory }) {
+  fs.mkdirSync(`${directory}/views`);
+
+  fs.writeFileSync(
+    `${directory}/views/${name}.ejs`,
+    `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>${name} | Ecommerce</title>
+        <meta name="description" content="Wow, so modern."></meta>
+        <meta charset="utf-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"></meta>
+
+        <link rel="stylesheet" href="/public/${name}.css" />
+
+        <%- include('../shared/polyfills') -%>
+      </head>
+      <body>
+        <%- include('../shared/header') -%>
+
+        <h1>${name}</h1>
+
+        <%- include('../shared/footer') -%>
+
+        <script type="module" src="/public/${name}.js" async defer></script>
+        <script type="nomodule" src="/public/${name}.nomodule.js" async defer></script>
+      </body>
+    </html>
+  `,
+  );
+}
+
+function makeModule({ directory, pascalName }) {
+  makeAndFormatFile(
+    `${directory}/module.ts`,
+    `
+    import { Module } from '@nestjs/common';
+    import ${pascalName}Controller from './controllers/controller';
+    import ${pascalName}Service from './services/service';
+
+    @Module({
+      controllers: [${pascalName}Controller],
+      providers: [${pascalName}Service],
+    })
+    export default class ${pascalName}Module {}
+  `,
+  );
+}
