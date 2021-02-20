@@ -96,6 +96,11 @@
           ]
         }
       ]
+    },
+    "settings": {
+      "polyfills": [
+        "fetch"
+      ]
     }
   },
   "nodemonConfig": {

@@ -34,7 +34,6 @@ async function copyviews(dir) {
       const source = `${dir}/${module}/views/${view}`;
       const dest = `${__dirname}/../dist/views/${module}/${view}`;
 
-      log(`Copying ${view}`);
       fs.copyFileSync(source, dest);
     }
   }

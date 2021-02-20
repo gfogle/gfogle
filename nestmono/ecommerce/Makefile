@@ -1,7 +1,8 @@
 
 build:
+	echo "Purging prior \/dist folder" && \
 	rm -rf dist && \
-	mkdir dist && mkdir dist/public && \
+	mkdir -p dist/public && \
 	./node_modules/.bin/nest build && \
 	node bin/copyviews && \
 	make bundle
