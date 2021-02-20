@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import FController from './controllers/controller';
-import FService from './services/service';
+import ForgotController from './controllers/controller';
+import ForgotService from './services/service';
 
 @Module({
-  controllers: [FController],
-  providers: [FService],
+  controllers: [ForgotController],
+  providers: [ForgotService],
 })
-export default class FModule {}
+export default class ForgotModule {}

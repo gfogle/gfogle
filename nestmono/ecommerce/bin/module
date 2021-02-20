@@ -6,10 +6,12 @@ const fs = require('fs');
 const child_process = require('child_process');
 
 (async (args) => {
+  const name = args[0].toLowerCase();
+  const pascalName = `${name[0].toUpperCase()}${name.slice(1)}`;
   const module = {
-    name: args[0],
-    directory: `${__dirname}/../src/modules/${args[0]}`,
-    pascalName: `${args[0][0]?.toUpperCase()}${args[0][0]?.slice(1)}`,
+    name,
+    directory: `${__dirname}/../src/modules/${name}`,
+    pascalName,
   };
 
   if (!module.name) {

@@ -1,9 +1,9 @@
 import { Controller, Get, Render } from '@nestjs/common';
-import FService from '../services/service';
+import ForgotService from '../services/service';
 
 @Controller()
-export default class FController {
-  constructor(private readonly service: FService) {}
+export default class ForgotController {
+  constructor(private readonly service: ForgotService) {}
 
   @Get('/forgot')
   @Render('forgot/forgot.ejs')

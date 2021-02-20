@@ -1,16 +1,16 @@
 import { Test } from '@nestjs/testing';
-import FService from './service';
+import ForgotService from './service';
 
-describe('FService', () => {
-  let service: FService;
+describe('ForgotService', () => {
+  let service: ForgotService;
 
   beforeEach(async () => {
     const app = await Test.createTestingModule({
       controllers: [],
-      providers: [FService],
+      providers: [ForgotService],
     }).compile();
 
-    service = app.get<FService>(FService);
+    service = app.get<ForgotService>(ForgotService);
   });
 
   it('is true', () => {
