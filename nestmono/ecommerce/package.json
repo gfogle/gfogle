@@ -2,9 +2,8 @@
   "name": "ecommerce",
   "version": "0.0.1",
   "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "author": "https://github.com/gfogle",
+  "license": "MIT",
   "engines": {
     "node": ">=14.15.0"
   },
@@ -23,7 +22,6 @@
     "fastify-static": "3.4.0",
     "point-of-view": "4.10.0",
     "reflect-metadata": "0.1.13",
-    "rimraf": "3.0.2",
     "rxjs": "6.6.3"
   },
   "devDependencies": {
@@ -93,7 +91,7 @@
           "paths": [
             {
               "name": "react",
-              "message": "React ( and accompanying packages ) is very large, use Preact instead!"
+              "message": "React ( and friends ) is very large, use Preact instead!"
             }
           ]
         }

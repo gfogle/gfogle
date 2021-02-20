@@ -1,6 +1,6 @@
 
 build:
-	./node_modules/.bin/rimraf dist && \
+	rm -rf dist && \
 	mkdir dist && mkdir dist/public && \
 	./node_modules/.bin/nest build && \
 	node bin/copyviews && \
