@@ -1,0 +1,119 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const esbuild = require('esbuild');
+const postcss = require('postcss');
+
+async function stylesheets(dir) {
+  console.log(`Rebuilding css entrypoints`);
+
+  const modules = fs.readdirSync(`${dir}`);
+
+  for (let i = 0; i < modules.length; i++) {
+    if (!fs.existsSync(`${dir}/${modules[i]}/assets/stylesheets/entrypoints`)) {
+      continue;
+    }
+
+    const module = modules[i];
+    const entries = fs.readdirSync(
+      `${dir}/${module}/assets/stylesheets/entrypoints`,
+    );
+
+    for (let j = 0; j < entries.length; j++) {
+      const entry = `${dir}/${module}/assets/stylesheets/entrypoints/${entries[j]}`;
+      const css = fs.readFileSync(entry);
+      const result = await postcss([
+        require('autoprefixer'),
+        require('postcss-preset-env')({
+          grid: true,
+        }),
+        require('cssnano')({
+          preset: 'default',
+        }),
+      ]).process(css, {
+        from: entry,
+        to: `${__dirname}/../dist/public/${entries[j]}`,
+      });
+
+      fs.writeFileSync(`${__dirname}/../dist/public/${entries[j]}`, result.css);
+    }
+  }
+
+  console.log(`Done rebuilding`);
+}
+
+async function javascripts(dir) {
+  console.log(`Rebuilding javascript entrypoints`);
+
+  const modules = fs.readdirSync(`${dir}`);
+
+  for (let i = 0; i < modules.length; i++) {
+    if (!fs.existsSync(`${dir}/${modules[i]}/assets/javascripts/entrypoints`)) {
+      continue;
+    }
+
+    const module = modules[i];
+    const entries = fs.readdirSync(
+      `${dir}/${module}/assets/javascripts/entrypoints`,
+    );
+
+    for (let j = 0; j < entries.length; j++) {
+      await esbuild
+        .build({
+          entryPoints: [
+            `${dir}/${modules[i]}/assets/javascripts/entrypoints/${entries[j]}`,
+          ],
+          /**
+           * Inlines the dependencies
+           * TODO: dont do this and spit out an import map?
+           */
+          bundle: true,
+          format: 'esm',
+          minify: true,
+          metafile: `${__dirname}/../dist/public/${entries[j].replace(
+            '.jsx',
+            '.js',
+          )}.meta.json`,
+          outfile: `${__dirname}/../dist/public/${entries[j].replace(
+            '.jsx',
+            '.js',
+          )}`,
+        })
+        .catch(() => process.exit(1));
+
+      await esbuild
+        .build({
+          entryPoints: [
+            `${dir}/${modules[i]}/assets/javascripts/entrypoints/${entries[j]}`,
+          ],
+          bundle: true,
+          format: 'iife',
+          minify: true,
+          metafile: `${__dirname}/../dist/public/${entries[j].replace(
+            '.jsx',
+            '.nomodule.js',
+          )}.meta.json`,
+          outfile: `${__dirname}/../dist/public/${entries[j].replace(
+            '.jsx',
+            '.nomodule.js',
+          )}`,
+        })
+        .catch(() => process.exit(1));
+    }
+  }
+
+  console.log(`Done rebuilding`);
+}
+
+(async () => {
+  const dir = `${__dirname}/../src/modules`;
+
+  if (process.argv.length == 2) {
+    await javascripts(dir);
+    await stylesheets(dir);
+  } else if (process.argv[2] == '--css') {
+    await stylesheets(dir);
+  } else if (process.argv[2] == '--js') {
+    await javascripts(dir);
+  }
+})();

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Home | Ecommerce</title>
+    <meta name="description" content="Wow, so modern."></meta>
+    <meta charset="utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"></meta>
+
+    <link rel="stylesheet" href="/public/home.css" />
+
+    <%- include('../shared/polyfills') -%>
+  </head>
+  <body>
+    <%- include('../shared/header') -%>
+
+    <h1>Home</h1>
+    <div id="mount">
+      <p>Gonna see how long it takes for this <b>bad boy</b> to get replaced</p>
+    </div>
+
+    <%- include('../shared/footer') -%>
+
+    <script type="module" src="/public/home.js" async defer></script>
+    <script type="nomodule" src="/public/home.nomodule.js" async defer></script>
+  </body>
+</html>

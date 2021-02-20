@@ -1,0 +1,10 @@
+{
+  "collectCoverage": false,
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "../src/modules",
+  "testEnvironment": "node",
+  "testMatch": ["**/*.e2e.spec.ts"],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
+}
