@@ -9,7 +9,7 @@ const child_process = require('child_process');
   const module = {
     name: args[0],
     directory: `${__dirname}/../src/modules/${args[0]}`,
-    pascalName: `${args[0]?.toUpperCase()}${args[0]?.slice(1)}`,
+    pascalName: `${args[0][0]?.toUpperCase()}${args[0][0]?.slice(1)}`,
   };
 
   if (!module.name) {

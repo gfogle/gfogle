@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import FORGOTorgotController from './controllers/controller';
-import FORGOTorgotService from './services/service';
+import FController from './controllers/controller';
+import FService from './services/service';
 
 @Module({
-  controllers: [FORGOTorgotController],
-  providers: [FORGOTorgotService],
+  controllers: [FController],
+  providers: [FService],
 })
-export default class FORGOTorgotModule {}
+export default class FModule {}

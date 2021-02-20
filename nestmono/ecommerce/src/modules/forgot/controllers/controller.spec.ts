@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import FORGOTorgotController from './controller';
-import FORGOTorgotService from '../services/service';
+import FController from './controller';
+import FService from '../services/service';
 
-describe('FORGOTorgotController', () => {
-  let controller: FORGOTorgotController;
-  let service: FORGOTorgotService;
+describe('FController', () => {
+  let controller: FController;
+  let service: FService;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [FORGOTorgotController],
-      providers: [FORGOTorgotService],
+      controllers: [FController],
+      providers: [FService],
     }).compile();
 
-    controller = app.get<FORGOTorgotController>(FORGOTorgotController);
-    service = app.get<FORGOTorgotService>(FORGOTorgotService);
+    controller = app.get<FController>(FController);
+    service = app.get<FService>(FService);
   });
 
   describe('/forgot', () => {
