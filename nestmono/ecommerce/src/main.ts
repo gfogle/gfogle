@@ -7,6 +7,12 @@ import {
 } from '@nestjs/platform-fastify';
 import { Module } from '@nestjs/common';
 
+(async () => {
+  const imports = await autoload(`${__dirname}/modules`);
+
+  bootstrap(__dirname, imports);
+})();
+
 async function autoload(directory) {
   const directories = fs.readdirSync(directory);
   const modules = [];
@@ -24,9 +30,7 @@ async function autoload(directory) {
   return modules;
 }
 
-async function bootstrap() {
-  const imports = await autoload(`${__dirname}/modules`);
-
+async function bootstrap(root, imports) {
   @Module({
     imports,
     controllers: [],
@@ -40,7 +44,7 @@ async function bootstrap() {
   );
 
   app.useStaticAssets({
-    root: join(__dirname, '..', 'dist', 'public'),
+    root: join(root, '..', 'dist', 'public'),
     prefix: '/public/',
   });
 
@@ -48,10 +52,8 @@ async function bootstrap() {
     engine: {
       ejs: require('ejs'),
     },
-    templates: join(__dirname, 'views'),
+    templates: join(root, 'views'),
   });
 
   await app.listen(3000, '0.0.0.0');
 }
-
-bootstrap();
