@@ -21,9 +21,15 @@ async function stylesheets(dir) {
 
     for (let j = 0; j < entries.length; j++) {
       const entry = `${dir}/${module}/assets/stylesheets/entrypoints/${entries[j]}`;
+
+      if (!entry.endsWith('.css')) {
+        continue;
+      }
+
       const css = fs.readFileSync(entry);
       const result = await postcss([
         require('autoprefixer'),
+        require('postcss-nested'),
         require('postcss-preset-env')({
           grid: true,
         }),
@@ -58,6 +64,14 @@ async function javascripts(dir) {
     );
 
     for (let j = 0; j < entries.length; j++) {
+      if (
+        !['.js', '.jsx', '.ts', '.tsx'].filter((suffix) =>
+          entries[j].endsWith(suffix),
+        ).length
+      ) {
+        continue;
+      }
+
       await esbuild
         .build({
           entryPoints: [
