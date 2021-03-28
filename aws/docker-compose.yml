@@ -1,0 +1,22 @@
+#
+# Using V2 because the extends keyword is not in V3. We
+#   want extension to have a library.yaml then a per-repo
+#   defined compose.yaml as well as a secrets-based override.yml
+#   which is not easily-doable in V3.
+#
+version: '2'
+
+services:
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb
+    ports:
+      - "8000:8000"
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: db-admin
+    ports:
+      - "8001:8001"
+    environment:
+      DYNAMO_ENDPOINT: http://dynamodb:8000
