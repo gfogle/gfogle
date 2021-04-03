@@ -13,6 +13,7 @@ services:
     container_name: dynamodb
     ports:
       - "8000:8000"
+
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin:latest
     container_name: db-admin
