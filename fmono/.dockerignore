@@ -1,0 +1,18 @@
+# Node
+node_modules
+npm-debug.log
+
+# Git
+.git
+.gitignore
+
+# Static Files
+public
+*.md
+
+# OS
+.DS_Store
+
+# Docker
+.dockerignore
+Dockerfile

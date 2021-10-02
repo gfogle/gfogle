@@ -5,17 +5,12 @@ This is where I keep all of my public personal projects and gists. If anything h
 
 ## 🧰 Projects I’m currently working on
 
-### 🔋 **monorepo**
-a CLI to generate a monorepo template project with the batteries-included setup for developer workflows, CICD, etc. Uses [sparse checkouts](https://github.blog/2020-01-17-bring-your-monorepo-down-to-size-with-sparse-checkout/) and a YAML file to declare the structure of your *applications and services*.
+### 🔋 **fmono**
+a Fastify monorepo template project with a batteries-included setup. The goal is to create a web + api monorepo that ideally hundreds - even thousands - of developers could work in without all the negative connotations that come along with the word "monorepo" like slow review cycles, excessive storage size, etc.
 
-The goal is to create monorepos that ideally hundreds - even thousands - of developers could work in without all the negative connotations that come along with the word "monorepo" like slow review cycles, excessive storage size, etc.
+The server uses the Fastify [plugin system](https://www.fastify.io/docs/latest/Plugins/) which is similar to Rails [engines](https://guides.rubyonrails.org/engines.html) to encapsulate sections of an application: home, login, search etc.
 
-### 🔋 **modernweb**
-a CLI to generate a Node.js web application with minimal dependencies inspired by other projects like [Ruby on Rails](https://github.com/rails/rails), [wmr](https://github.com/preactjs/wmr) and [snowpack](https://github.com/snowpackjs/snowpack).
-
-The project experiments with newer technologies like [Import Maps](https://github.com/WICG/import-maps) to get away from the large amount of setup baked into web applications today.
-
-The goal is to conceptually leverage paradigms from other projects, like [Rails Engines](https://guides.rubyonrails.org/engines.html), to create a microfrontend-like developer workflow for teams of any size while also using as much vanilla HTML, CSS and Javascript as possible.
+The client-side is inspired by other tooling - and even uses some of - [wmr](https://github.com/preactjs/wmr), [snowpack](https://github.com/snowpackjs/snowpack) etc. to take advantage of [Import Maps](https://github.com/WICG/import-maps) and eliminate alot of the tooling around setting up "modern" web applications; while still providing a production pipeline with tools like [esbuild](https://github.com/evanw/esbuild) for efficient bundling, minification etc. if that's something your application requires.
 
 <!--
 **gfogle/gfogle** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
