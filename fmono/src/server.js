@@ -1,11 +1,20 @@
 const fs = require("fs");
 const { fastify: Fastify } = require("fastify");
 
-const fastify = Fastify({
-  logger: true,
-});
-
 if (process.env.PORT) {
+  const fastify = Fastify({
+    logger: true,
+  });
+
+  /** @type any */
+  const pov = require("point-of-view");
+  fastify.register(pov, {
+    engine: {
+      ejs: require("ejs"),
+    },
+    root: __dirname,
+  });
+
   for (const p of fs.readdirSync("./src/plugins")) {
     try {
       fastify.register(require(`${__dirname}/plugins/${p}`));
