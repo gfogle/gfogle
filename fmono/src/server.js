@@ -1,3 +1,4 @@
+const tracer = require("dd-trace").init();
 const fs = require("fs");
 const { fastify: Fastify } = require("fastify");
 

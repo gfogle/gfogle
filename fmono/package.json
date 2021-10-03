@@ -8,6 +8,7 @@
     "web": "https://github.com/gfogle"
   },
   "dependencies": {
+    "dd-trace": "1.4.1",
     "ejs": "3.1.6",
     "fastify": "3.21.6",
     "point-of-view": "4.15.2"
