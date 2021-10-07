@@ -1,10 +1,10 @@
-# fmono
+# 🦁  fmono
 This is a monolithic fastify webserver that can serve html and json.
 
-## Documentation
+## 🗒  Documentation
 The api uses [apidoc](https://github.com/apidoc/apidoc) to codegen the documentation. You can run `npm run docs` to generate those docs and they will get written out into the `public` folder with an `index.html` you can use to browse.
 
-## Testing
+## 🧪  Testing
 The project uses a few libraries to test and generally tries to follow a BDD test naming convention based on [Gherkin](https://cucumber.io/docs/gherkin/reference/). When testing, you can run `npm test` and a report with code coverage will be created on your local file system at `test/coverage/index.html` in this project directory.
 
 ### Types of Tests
@@ -23,7 +23,7 @@ These are the short list of libraries we use to write tests.
 - **[code](https://github.com/hapijs/code)** an assertion library with the same API as `chai` built to pair with Lab.
 - **[testdouble](https://github.com/testdouble/testdouble.js/)** test double is similar to `Sinon` and used for mocking and stubbing
 
-### Useful Links
+### 🌐  Useful Links
 
 - https://blog.testdouble.com/posts/2016-03-13-testdouble-vs-sinon/
 - https://www.youtube.com/watch?v=x8sKpJwq6lY

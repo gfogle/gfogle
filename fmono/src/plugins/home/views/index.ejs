@@ -5,15 +5,15 @@
     <title><%= title %></title>
     <meta name="description" content="<%= description %>"></meta>
 
-    <%- include(partials.meta); %>
+    <%- include('../../shared/views/partials/_meta.ejs'); %>
   </head>
 
   <body>
-    <%- include(partials.header); %>
+    <%- include('../../shared/views/partials/_header.ejs'); %>
 
     <div id="mount"></div>
 
-    <%- include(partials.polyfills); %>
+    <%- include('../../shared/views/partials/_polyfills.ejs'); %>
 
     <script type="importmap">
       {

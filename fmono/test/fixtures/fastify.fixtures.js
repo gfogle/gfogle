@@ -6,6 +6,7 @@ const factory = new Factory();
  */
 class MockReply {
   send() {}
+  view() {}
 }
 
 Factory.define("reply", MockReply);
