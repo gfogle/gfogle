@@ -76,7 +76,7 @@ Practical applications: Social Networks, BTrees in SQL, Tries and Inverted Index
 It's important to understand the runtime and storage performance of solutions. Why? Imagine that processing one entry in a list takes 1 millisecond. The performance of various algorithms would then be:
 
 | **Performance** | **1 Entry (ms)** | **100k entries (ms)** | **100k entries (min)** |
-| ~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~~~~~~~ |
+| --------------- | ---------------- | --------------------- | ---------------------- |
 | O (log n) | 1ms | 17ms | 0.0003 min
 | O (n) | 1ms | 100k ms | 1.7 min |
 | O (n log n) | 1ms | 1.7m ms | 28 min |
