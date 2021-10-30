@@ -31,17 +31,6 @@ There are many, many concepts in Software Engineering and Computer Science that 
 There are tons of variations of questions but most of them center around how well you know a core set of patterns. If you understand the fundamentals of those core patterns then you're going to be well-equipped to solve those variations by pattern matching.
 
 
-### Data Structures
-There are many, many different data structures that are used throughout technology solutions.
-
-- **Arrays**
-- **Lists**
-- **Heaps**
-- **Trees**
-- **Graphs**
-
-Practical applications: Social Graphs, BTrees in SQL, Tries and Inverted Indexes in Language-Based Search, Abstract Syntax Trees in Transpilers,
-
 ### Search
 These problems will involve finding some value or calculated value in a data structure: arrays, graphs or trees. Some classic problems such as *shortest route from A to B* or *largest area of connected nodes in a graph*. Occasionally there will be questions based around binary search to find a value in a sorted list. There are a few core algorithms in these problem sets:
 
