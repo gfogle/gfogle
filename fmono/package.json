@@ -10,6 +10,8 @@
   "dependencies": {
     "ejs": "3.1.6",
     "fastify": "3.21.6",
+    "fastify-cookie": "5.3.1",
+    "isomorphic-unfetch": "3.1.0",
     "point-of-view": "4.15.2"
   },
   "description": "Monolith Fastify ",
@@ -21,6 +23,7 @@
     "@types/node": "14.14.16",
     "apidoc": "0.29.0",
     "autocannon": "7.4.0",
+    "jsdoc": "3.6.7",
     "nodemon": "2.0.13",
     "prettier": "2.4.1",
     "rosie": "2.1.0",
@@ -45,7 +48,9 @@
     "url": "git+https://github.com/gfogle/gfogle"
   },
   "scripts": {
-    "docs": "./node_modules/.bin/apidoc -i src -o public",
+    "docs": "npm run docs:api && npm run docs:src",
+    "docs:api": "./node_modules/.bin/apidoc -i src -o public/apidoc",
+    "docs:src": "./node_modules/.bin/jsdoc -c .jsdoc.js -r -d public/jsdoc",
     "lint": "./node_modules/.bin/tsc --diagnostics --noEmit",
     "profile": "PORT=4000 ./node_modules/.bin/0x -o src/server.js",
     "perf": "PORT=4000 ./node_modules/.bin/0x -P 'autocannon localhost:4000' src/server.js",

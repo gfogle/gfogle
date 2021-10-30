@@ -16,3 +16,6 @@ public
 # Docker
 .dockerignore
 Dockerfile
+
+# Postman local testing
+postman

@@ -7,6 +7,8 @@ const FastifyFixtures = require("../../../../../test/fixtures/fastify.fixtures")
 
 const { expect } = Code;
 const lab = (exports.lab = Lab.script());
+const subject = new HomeController();
+const reply = td.object(FastifyFixtures.build("reply"));
 
 lab.experiment("Feature: Home", () => {
   lab.afterEach(() => {
@@ -14,11 +16,10 @@ lab.experiment("Feature: Home", () => {
   });
 
   lab.test("Rule: returns 200 status", () => {
-    const reply = td.object(FastifyFixtures.build("reply"));
-
-    new HomeController().index({}, reply);
+    subject.index({}, reply);
 
     expect(reply.statusCode).to.equal(200);
+
     td.verify(
       reply.view(`plugins/home/views/index.ejs`, {
         title: "FMono | Fastify Monorepo",

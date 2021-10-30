@@ -6,6 +6,9 @@ if (process.env.PORT) {
     logger: true,
   });
 
+  // @ts-ignore
+  fastify.register(require("fastify-cookie"));
+
   /** @type any */
   const pov = require("point-of-view");
   fastify.register(pov, {

@@ -12,7 +12,16 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "plugins": [
+      {
+        "name": "typescript-lit-html-plugin",
+        "tags": [
+          "html",
+          "template"
+        ]
+      }
+    ]
   },
   "include": [
     "src/*.js"
