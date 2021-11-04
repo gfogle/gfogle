@@ -11,8 +11,11 @@
     "ejs": "3.1.6",
     "fastify": "3.21.6",
     "fastify-cookie": "5.3.1",
+    "htm": "3.1.0",
     "isomorphic-unfetch": "3.1.0",
-    "point-of-view": "4.15.2"
+    "point-of-view": "4.15.2",
+    "preact": "10.5.15",
+    "preact-render-to-string": "5.1.19"
   },
   "description": "Monolith Fastify ",
   "devDependencies": {
