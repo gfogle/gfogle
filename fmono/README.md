@@ -2,7 +2,7 @@
 This is a monolithic fastify webserver that can serve html and json.
 
 ## 🗒  Documentation
-The api uses [apidoc](https://github.com/apidoc/apidoc) to codegen the documentation. You can run `npm run docs` to generate those docs and they will get written out into the `public` folder with an `index.html` you can use to browse.
+The api uses [apidoc](https://github.com/apidoc/apidoc) to codegen the documentation. You can run `npm run docs` to generate those docs and they will get written out into the `public/apidoc` folder with an `index.html` you can use to browse. The source code is annotated with [jsdoc]() syntax and will be written to the `public/jsdoc` folder with an `index.html` file.
 
 ## 🧪  Testing
 The project uses a few libraries to test and generally tries to follow a BDD test naming convention based on [Gherkin](https://cucumber.io/docs/gherkin/reference/). When testing, you can run `npm test` and a report with code coverage will be created on your local file system at `test/coverage/index.html` in this project directory.

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parallax Scrolling | Coding Tutorials</title>
+    <!--
+      Just tinkering with parallax scrolling techniques. See:
+
+      https://www.youtube.com/watch?v=1wfeqDyMUx4
+      https://codepen.io/guisato565/details/rNzONMG
+    -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: linear-gradient(#2b1055, #7597de);
+        background-repeat: no-repeat;
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        padding: 0;
+        scroll-behavior: smooth;
+      }
+
+      #jumbotron {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+      }
+
+      /*
+        gradient to blend into content
+      */
+      #jumbotron::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(to top, #1c0522, transparent);
+        z-index: 1000;
+      }
+
+      #jumbotron img {
+        height: 100%;
+        left: 0;
+        object-fit: cover; /* maintain aspect ration when expanding/shrinking */
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      #moon {
+        /*
+          inverts black ring into a purple shade relative to background
+        */
+        mix-blend-mode: screen;
+      }
+
+      #content {
+        background: #1c0522;
+        color: #fff;
+        position: relative;
+        min-height: 1000px;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section id="jumbotron">
+      <img
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/stars.png"
+        id="stars"
+      />
+      <img
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/moon.png"
+        id="moon"
+      />
+      <img
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/mountains_behind.png"
+        id="mountains_behind"
+      />
+      <img
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/mountains_front.png"
+        id="mountains_front"
+      />
+    </section>
+
+    <section id="content"></section>
+
+    <script>
+      let stars = document.getElementById("stars");
+      let moon = document.getElementById("moon");
+      let mountains_behind = document.getElementById("mountains_behind");
+      let mountains_front = document.getElementById("mountains_front");
+
+      window.addEventListener("scroll", function () {
+        let value = window.scrollY;
+
+        window.requestAnimationFrame(function () {
+          stars.style.left = value * 0.15 + "px";
+
+          moon.style.top = value * 0.95 + "px";
+
+          mountains_behind.style.top = value * 0.35 + "px";
+          mountains_front.style.top = value * 0 + "px";
+        });
+      });
+    </script>
+  </body>
+</html>

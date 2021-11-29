@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parallax Scrolling | Coding Tutorials</title>
+    <!--
+      Just tinkering with parallax scrolling techniques. See:
+
+      https://www.youtube.com/watch?v=tbfnYDWa6zE
+    -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #3586ff;
+        background-repeat: no-repeat;
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        padding: 0;
+        scroll-behavior: smooth;
+      }
+
+      #jumbotron {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+      }
+
+      .wave {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        width: 1000px;
+        height: 100px;
+        animation: animate 4s ease-in-out infinite;
+        animation-delay: calc(var(--i) * 0.25s);
+      }
+
+      @keyframes animate {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(10px);
+        }
+      }
+
+      #wave1 {
+        left: 400px;
+        opacity: 1;
+        z-index: 1000;
+      }
+
+      #wave2 {
+        left: 300px;
+        opacity: 0.5;
+        z-index: 999;
+      }
+
+      #wave3 {
+        left: 200px;
+        opacity: 0.2;
+        z-index: 998;
+      }
+
+      #wave3 {
+        left: 100px;
+        opacity: 0.7;
+        z-index: 997;
+      }
+
+      #content {
+        background: #1c0522;
+        color: #fff;
+        position: relative;
+        min-height: 1000px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section id="jumbotron">
+      <!--
+        Making these divs with a background image would repeat in the x direction
+        And so it would look like a continuous set of waves
+      -->
+      <img
+        class="wave"
+        id="wave1"
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/wave.png"
+        style="--i: 1"
+      />
+      <img
+        class="wave"
+        id="wave2"
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/wave.png"
+        style="--i: 2"
+      />
+      <img
+        class="wave"
+        id="wave3"
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/wave.png"
+        style="--i: 3"
+      />
+      <img
+        class="wave"
+        id="wave4"
+        src="https://github.com/gfogle/gfogle/tree/master/tutorials/cdn/wave.png"
+        style="--i: 4"
+      />
+    </section>
+
+    <section id="content"></section>
+
+    <script>
+      let wave1 = document.getElementById("wave1");
+      let wave2 = document.getElementById("wave2");
+      let wave3 = document.getElementById("wave3");
+      let wave4 = document.getElementById("wave4");
+
+      window.addEventListener("scroll", function () {
+        let value = window.scrollY;
+
+        wave1.style.left = 400 + value * 4 + "px";
+        wave2.style.left = 300 + value * -4 + "px";
+        wave3.style.left = 200 + value * 2 + "px";
+        wave4.style.left = 100 + value * -2 + "px";
+      });
+    </script>
+  </body>
+</html>
