@@ -103,6 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# modernweb CLI
-modernweb/packages/cli/playground/**/*
-modernweb/packages/cli/dist
+# bazel
+bazel-out
+.bazelrc.user
