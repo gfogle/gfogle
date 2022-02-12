@@ -3,7 +3,21 @@ This is where I keep all of my public personal projects and gists. If anything h
 
 - 📬 [email](mailto:georgefogle@hey.com)
 
-## 🧰 Projects I’m currently working on
+## 🧰 Projects
+Below are the projects that I'm either currently working on or are inside of this repo and relatively stable.
+
+### 🌿 Bazel
+
+<div align="center">
+  <a href="https://github.com/drakery3d/fullstack-bazel">
+    <img width="100px" height="auto" src="https://bazel.build/images/bazel-icon.svg" />
+  </a>
+  <br>
+</div>
+
+Currently consolidating and migrating the various subprojects in this repo to a Bazel build system.
+
+<!--
 
 ### 🔋 **fmono**
 a Fastify monorepo template project with a batteries-included setup. The goal is to create a web + api monorepo that ideally hundreds - even thousands - of developers could work in without all the negative connotations that come along with the word "monorepo" like slow review cycles, excessive storage size, etc.
@@ -12,7 +26,7 @@ The server uses the Fastify [plugin system](https://www.fastify.io/docs/latest/P
 
 The client-side is inspired by other tooling - and even uses some of - [wmr](https://github.com/preactjs/wmr), [snowpack](https://github.com/snowpackjs/snowpack) etc. to take advantage of [Import Maps](https://github.com/WICG/import-maps) and eliminate alot of the tooling around setting up "modern" web applications; while still providing a production pipeline with tools like [esbuild](https://github.com/evanw/esbuild) for efficient bundling, minification etc. if that's something your application requires.
 
-<!--
+
 **gfogle/gfogle** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
