@@ -11,6 +11,7 @@ if [ -z "$has_bazel" ]; then
   brew install bazel && \
   bazel --version && \
   # Installing graphviz to view bazel build graph
+  # See: https://graphviz.org/doc/info/command.html
   brew install graphviz && \
   # Installing ibazel for file watching and restarting
   brew tap bazelbuild/tap && \
