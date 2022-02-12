@@ -1,7 +1,18 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-# echo "Git Aliases"
+set -e
 
-# git config --global alias.lgo "log --oneline --graph"
-# git config --global alias.size "count-objects -v -H"
-# git config --global alias.wip "!f(){ git add --all && git commit -m \":information_desk_person:\"; };f"
+has_bazel=`which bazel | sed -e 's/^[[:space:]]*//'`
+if [ -z "$has_bazel" ]; then
+  echo "[INFO] Installing Bazel \n"
+
+  # Installing bazel
+  #   - if this fails you may need to xcode-select --install
+  brew install bazel && \
+  bazel --version && \
+  # Installing graphviz to view bazel build graph
+  brew install graphviz && \
+  # Installing ibazel for file watching and restarting
+  brew tap bazelbuild/tap && \
+  brew install bazelbuild/tap/ibazel
+fi
