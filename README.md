@@ -6,27 +6,19 @@ This is where I keep all of my public personal projects and gists. If anything h
 ## 🧰 Projects
 Below are the projects that I'm either currently working on or are inside of this repo and relatively stable.
 
-### 🌿 Bazel
+### Bazel and Kubernetes
 
 <div align="center">
   <a href="https://bazel.build">
     <img width="100px" height="auto" src="https://bazel.build/images/bazel-icon.svg" />
   </a>
-  <br>
-</div>
-
-I'm consolidating and migrating my various subprojects to this repo using a Bazel build system.
-
-### Kubernetes
-
-<div align="center">
   <a href="https://kubernetes.io">
     <img width="100px" height="auto" src="https://kubernetes.io/images/favicon.png" />
   </a>
   <br>
 </div>
 
-I'm changing all of my Docker + Compose based projects to instead run locally on Kubernetes.
+I'm migrating my various subprojects to this repo and using a Bazel build system. I'm changing all of my Docker + Compose based projects to instead run locally on Kubernetes.
 
 <!--
 
