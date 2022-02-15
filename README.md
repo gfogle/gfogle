@@ -15,7 +15,7 @@ Below are the projects that I'm either currently working on or are inside of thi
   <br>
 </div>
 
-Currently consolidating and migrating the various subprojects in this repo to a Bazel build system.
+Currently consolidating and migrating my various subprojects to this repo using a Bazel build system.
 
 <!--
 
