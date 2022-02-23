@@ -40,3 +40,7 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+## Useful Links
+
+- 🎥 [Kubernetes 101](https://www.youtube.com/watch?v=s_o8dwzRlu4)

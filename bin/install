@@ -2,9 +2,10 @@
 
 set -e
 
+echo "🔎 checking for bazel \n"
 has_bazel=`which bazel | sed -e 's/^[[:space:]]*//'`
 if [ -z "$has_bazel" ]; then
-  echo "[INFO] Installing Bazel \n"
+  echo "💾 Installing Bazel \n"
 
   # Installing bazel
   #   - if this fails you may need to xcode-select --install
@@ -16,4 +17,37 @@ if [ -z "$has_bazel" ]; then
   # Installing ibazel for file watching and restarting
   brew tap bazelbuild/tap && \
   brew install bazelbuild/tap/ibazel
+fi
+
+
+echo "🔎 checking for kubectl \n"
+has_kubectl=`which kubectl | sed -e 's/^[[:space:]]*//'`
+if [ -z "$has_kubectl" ]; then
+  echo "💾 Installing kubectl \n"
+
+  brew install kubectl
+fi
+
+echo "🔎 checking for kubectx \n"
+has_kubectx=`which kubectx | sed -e 's/^[[:space:]]*//'`
+if [ -z "$has_kubectx" ]; then
+  echo "💾 Installing kubectx \n"
+
+  brew install kubectx
+fi
+
+echo "🔎 checking for minikube \n"
+has_minikube=`which minikube | sed -e 's/^[[:space:]]*//'`
+if [ -z "$has_minikube" ]; then
+  echo "💾 Installing minikube \n"
+
+  brew install minikube
+fi
+
+echo "🔎 checking for kompose \n"
+has_kompose=`which kompose | sed -e 's/^[[:space:]]*//'`
+if [ -z "$has_kompose" ]; then
+  echo "💾 Installing kompose \n"
+
+  brew install kompose
 fi
