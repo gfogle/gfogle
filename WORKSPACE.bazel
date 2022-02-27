@@ -3,6 +3,7 @@
 workspace(
   name = "gfogle",
   managed_directories = {
+    # Map the @npm bazel workspace to the node_modules directory.
     "@npm": [
       "node_modules"
     ]

@@ -4,9 +4,10 @@ RUN gu install nodejs
 
 WORKDIR /web
 
-COPY src src/
 COPY docker/package.json package.json
-
 RUN npm install && ./node_modules/.bin/es4x install
 
-CMD ["./node_modules/.bin/es4x"]
+COPY src src/
+
+CMD ["./node_modules/.bin/es4x-launcher"]
+# es4x run --redeploy "m/*" index.js

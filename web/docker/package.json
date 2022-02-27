@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vertx/core": "4.2.2"
+    "@vertx/core": "4.2.2",
+    "@vertx/web": "4.2.4"
   },
   "devDependencies": {
     "@es4x/create": "0.16.2",
@@ -18,6 +19,6 @@
   "scripts": {
     "postinstall": "./node_modules/.bin/es4x install",
     "start": "./node_modules/.bin/es4x",
-    "test": "./node_modules/.bin/es4x test index.test.js"
+    "test": "./node_modules/.bin/es4x test test/index.test.js"
   }
 }

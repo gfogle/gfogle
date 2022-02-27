@@ -4,7 +4,8 @@
     "url": "https://github.com/gfogle/gfogle/issues"
   },
   "dependencies": {
-    "@vertx/core": "4.2.2"
+    "@vertx/core": "4.2.2",
+    "@vertx/web": "4.2.4"
   },
   "description": "@gfogle monorepo built with bazel",
   "devDependencies": {
