@@ -1,11 +1,12 @@
 ### Hi there 👋
-This is where I keep all of my public personal projects and gists. If anything here seems interesting, feel free to contact me via:
+This is where I keep all of my public projects and gists. If anything here seems interesting, feel free to contact me via:
 
 - 📬 [email](mailto:georgefogle@hey.com)
 
 ## 🧰 Projects
 Below are the projects that I'm either currently working on or are inside of this repo and relatively stable.
 
+<!--
 ### Bazel and Kubernetes
 
 <div align="center">
@@ -20,7 +21,7 @@ Below are the projects that I'm either currently working on or are inside of thi
 
 I'm migrating my various subprojects to this repo and using a Bazel build system. I'm changing all of my Docker + Compose based projects to instead run locally on Kubernetes.
 
-<!--
+
 
 ### 🔋 **fmono**
 a Fastify monorepo template project with a batteries-included setup. The goal is to create a web + api monorepo that ideally hundreds - even thousands - of developers could work in without all the negative connotations that come along with the word "monorepo" like slow review cycles, excessive storage size, etc.
@@ -42,8 +43,10 @@ Here are some ideas to get you started:
 - 📫 How to reach me: ...
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
--->
+
 
 ## Useful Links
 
 - 🎥 [Kubernetes 101](https://www.youtube.com/watch?v=s_o8dwzRlu4)
+
+-->
