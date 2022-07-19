@@ -1,0 +1,46 @@
+# Bazel workspace created by @bazel/create 4.4.5
+
+workspace(
+  name = "gfogle",
+  managed_directories = {
+    "@npm": [
+      "node_modules"
+    ]
+  },
+)
+
+load(
+  "@bazel_tools//tools/build_defs/repo:http.bzl",
+  "http_archive"
+)
+
+# ------------------------------------------------------------------
+# Javascript Support
+#
+# Documentation: https://bazelbuild.github.io/rules_nodejs/
+# ------------------------------------------------------------------
+http_archive(
+  name = "build_bazel_rules_nodejs",
+  sha256 = "f7037c8e295fdc921f714962aee7c496110052511e2b14076bd8e2d46bc9819c",
+  urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.4.5/rules_nodejs-4.4.5.tar.gz"],
+)
+
+load(
+  "@build_bazel_rules_nodejs//:index.bzl",
+  # sets up node and npm toolchain
+  "node_repositories",
+  # runs any time package.json or package-lock.json changes
+  "npm_install"
+)
+
+node_repositories(
+  node_version = "18.6.0",
+  package_json = ["//:package.json"],
+)
+
+npm_install(
+  # makes bazel label references look like @npm//package
+  name = "npm",
+  package_json = "//:package.json",
+  package_lock_json = "//:package-lock.json",
+)

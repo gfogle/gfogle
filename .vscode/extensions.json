@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "pkief.material-icon-theme",
+    "BazelBuild.vscode-bazel"
+  ]
+}

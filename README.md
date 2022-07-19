@@ -1,10 +1,19 @@
 ### Hi there 👋
-This is where I keep all of my public projects and gists. If anything here seems interesting, feel free to contact me via:
+This is where I keep all of my public projects and gists. If anything here seems interesting, feel free to contact me via [📬 email](mailto:georgefogle@hey.com).
 
-- 📬 [email](mailto:georgefogle@hey.com)
+Currently, I'm interested in focused on creating a monorepo codebase that hundreds, even thousands, of engineers could work on simulataneously with minimal friction. The core set of technologies I'm using to make that happen are web servers using [vertx](https://vertx.io/), built and deployed with [bazel](https://bazel.build/) and hosted on [kubernetes](https://kubernetes.io/).
 
 ## 🧰 Projects
-Below are the projects that I'm either currently working on or are inside of this repo and relatively stable.
+Currently, a few of the projects that I'm working on to support that example project are:
+
+### `bin` installation
+This is a script that recreates my entire dev profile in the instance I get a new laptop. It's meant to simulate what an engineer might run as a new hire starting on day one to get their machine set up.
+
+### Localstack
+This project sets up [localstack](https://localstack.cloud/) on a [minikube](https://minikube.sigs.k8s.io/docs/start/) instance to allow for local-only development of AWS-hosted projects. This facilitates local DynamoDB databases, SQS queues, etc.
+
+### DynamoDB migration CLI
+This is my small project to be like a [knex]() for DynamoDB to recreate a DynamoDB table from nothing.
 
 <!--
 ### Bazel and Kubernetes
@@ -44,9 +53,10 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 
+-->
 
 ## Useful Links
 
 - 🎥 [Kubernetes 101](https://www.youtube.com/watch?v=s_o8dwzRlu4)
 
--->
+
