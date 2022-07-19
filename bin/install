@@ -1,0 +1,221 @@
+#!/usr/bin/env sh
+#
+# Set up a developer workstation.
+
+set -e
+
+
+#######################################
+# @desc Prints an error and exits this script
+# @param the error message you want printed
+#######################################
+err() {
+  echo "🚫 [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $1" >&2 && \
+  exit 1
+}
+
+
+#######################################
+# @desc Prints a line of content and a newline
+# @param 1 - the message
+# @param 2 - an optional leading emoji
+#######################################
+print() {
+  if [ -z "$2" ]; then
+    echo "$1 \n"
+  else
+    echo "$2 $1 \n"
+  fi
+}
+
+
+#######################################
+# @desc checks if a command is installed using which
+# @param 1 - the name of the command
+#######################################
+has() {
+  local has_cmd=`which $1 | sed -e 's/^[[:space:]]*//'`
+
+  if [ -z "$has_cmd" ]; then
+    print "Command $1 is not installed." "🔎"
+    return 1
+  else
+    print "Command $1 is already installed." "🔎"
+    return 0
+  fi
+}
+
+#######################################
+# @desc checks if a file exists
+# @param 1 - the name of the file
+#######################################
+has_file() {
+  if [ -f $1 ]; then
+    print "File $1 exists already." "🔎"
+    return 0
+  else
+    print "File $1 does not exist." "🔎"
+    return 1
+  fi
+}
+
+
+#######################################
+# @desc checks if a GUI app is installed and visible in Launchpad
+# @param 1 - the name of the app
+#######################################
+has_app() {
+  local installed=$( mdfind -name "kMDItemFSName==\"*$1*.app\"" -onlyin /Volumes/Macintosh\ HD/Applications/ ~/Applications /Applications |cut -d "/" -f3|grep .app )
+
+  if [ -z "$installed" ]; then
+    print "App $1 is not installed." "🔎"
+    return 1
+  else
+    print "App $1 is already installed." "🔎"
+    return 0
+  fi
+}
+
+
+#######################################
+# @desc install Homebrew and CLI commands installed through it
+#######################################
+install_brew() {
+  print "Setting up Homebrew commands" "💾"
+
+  local brew_services=(
+    "bazel"
+    "docker"
+    "dive"
+    "git"
+    "kompose"
+    "kubectl"
+    "kubectx"
+    "minikube"
+  )
+
+  if ! has "brew"; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+    brew tap caskroom/cask
+  fi
+
+  for svc in ${brew_services[@]}; do
+    if ! has $svc; then
+      print "Setting up $svc" "💾"
+
+      # TODO: warn if not installed with brew via: brew leaves --installed-on-request
+
+      if [ $svc == "bazel" ]; then
+        # Installing bazel
+        #   - if this fails you may need to xcode-select --install
+        brew install bazel && \
+        bazel --version && \
+        # Installing graphviz to view bazel build graph
+        brew install graphviz && \
+        # Installing ibazel for file watching and restarting
+        brew tap bazelbuild/tap && \
+        brew install bazelbuild/tap/ibazel
+      else
+        brew install $svc
+      fi
+    fi
+  done
+}
+
+
+#######################################
+# @desc install Homebrew Cask GUI apps
+#######################################
+install_brew_apps() {
+  print "Setting up Homebrew Cask apps" "💾"
+
+  local cask_services=(
+    "1Password"
+    "Docker"
+    "Firefox"
+    "Google Chrome"
+    "Telegram"
+    "Visual Studio Code"
+    "WhatsApp"
+  )
+
+  #
+  # Loop using the indices otherwise the values with multiple
+  # words get split so "Google" and "Chrome" are separate
+  # entries in the loop
+  #
+  for ((i = 0; i < ${#cask_services[@]}; i++)); do
+    local svc="${cask_services[$i]}"
+
+    if ! has_app $svc; then
+      case "${svc}" in
+        "Google Chrome")
+          brew install --cask google-chrome
+          ;;
+        "Visual Studio Code")
+          brew install --cask visual-studio-code
+          ;;
+        *)
+          local app=$( echo "$svc" | tr "[:upper:]" "[:lower:]" )
+          brew install --cask $app
+          ;;
+      esac
+    fi
+  done
+}
+
+
+#######################################
+# @desc sets up Git profile. Assumes git is already installed
+#######################################
+setup_git() {
+  print "Setting up git aliases" "💾"
+
+  print "Your current aliases are:" && \
+  git config --get-regexp '^alias\.' && print "" && \
+
+  git config --global alias.lgo "log --oneline --graph" && \
+  git config --global alias.size "count-objects -v -H" && \
+  git config --global alias.wip "!f(){ git add --all && git commit -m \":information_desk_person:\"; };f"  && \
+  git config --global alias.pr "!f(){ git fetch upstream pull/\$1/head:pr-\$1 && git checkout pr-\$1; };f" && \
+
+  print "Your new git aliases are:" && \
+  git config --get-regexp '^alias\.' && print ""
+
+  # TODO: github ssh keys
+}
+
+
+#######################################
+# @desc sets up vscode extensions
+#######################################
+setup_vscode() {
+  print "Setting up VS Code extensions" "💾"
+
+  local code_extensions=(
+    "editorconfig.editorconfig"
+    "esbenp.prettier-vscode"
+    "pkief.material-icon-theme"
+    "BazelBuild.vscode-bazel"
+  )
+
+  for ext in ${code_extensions[@]}; do
+    code --install-extension $ext
+  done
+}
+
+
+#######################################
+# @desc installs node_modules via bazel
+#######################################
+install_node_modules() {
+  print "Installing node_modules" "💾"
+  bazel run @nodejs//:npm_node_repositories install -- --save
+}
+
+
+install_brew
+install_brew_apps
+setup_git
+setup_vscode
+install_node_modules

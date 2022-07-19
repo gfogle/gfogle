@@ -1,0 +1,5 @@
+# Add rules here to build your software
+# See https://docs.bazel.build/versions/main/build-ref.html#BUILD_files
+
+# This file is intentionally here because of
+# https://github.com/bazelbuild/rules_jvm_external/issues/242
