@@ -1,0 +1,43 @@
+package(default_visibility = ["//visibility:public"])
+
+load(
+  "@rules_java//java:defs.bzl",
+  "java_binary",
+  "java_library"
+)
+
+java_library(
+  name = "www-lib",
+  srcs = glob([
+    "src/main/java/com/gfogle/**/*.java",
+  ]),
+  resources = glob([
+    "src/main/resources/templates/**/*.html",
+  ]),
+  data = [],
+  deps = [
+    "@maven//:io_vertx_vertx_core",
+    "@maven//:io_vertx_vertx_web_templ_handlebars",
+    "@maven//:io_vertx_vertx_web",
+    "@maven//:io_vertx_vertx_web_common",
+    "@maven//:com_fasterxml_jackson_core_jackson_databind",
+    "//www/src/main/java/com/gfogle/common:common",
+  ],
+)
+
+java_binary(
+  name = "www",
+  main_class = "io.vertx.core.Launcher",
+  args = [
+    "run com.gfogle.MainVerticle"
+  ],
+  deploy_manifest_lines = [
+    "Main-Verticle: com.gfogle.MainVerticle"
+  ],
+  visibility = [
+    "//visibility:public"
+  ],
+  runtime_deps = [
+    ":www-lib"
+  ],
+)
