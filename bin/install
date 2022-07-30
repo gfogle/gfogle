@@ -83,6 +83,8 @@ has_app() {
 install_brew() {
   print "Setting up Homebrew commands" "💾"
 
+  # TODO: version these installed services and check against
+
   local brew_services=(
     "bazel"
     "docker"
@@ -92,6 +94,7 @@ install_brew() {
     "kubectl"
     "kubectx"
     "minikube"
+    "podman"
   )
 
   if ! has "brew"; then

@@ -1,0 +1,164 @@
+# --------------------------------------------------
+# Everything for localstack will run under its own
+#   namespace inside of the minikube cluster
+# --------------------------------------------------
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: localstack-ns
+  name: localstack-ns
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: claim0
+  namespace: localstack-ns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    name: claim1
+  name: claim1
+  namespace: localstack-ns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+# --------------------------------------------------
+# Top-level Service that binds to port 4566 for
+#   clients to connect to instead of AWS
+# --------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: localstack
+  name: localstack
+  namespace: localstack-ns
+spec:
+  ports:
+    - name: "4566"
+      port: 4566
+      targetPort: 4566
+  selector:
+    name: localstack
+---
+# --------------------------------------------------
+# Deployment sets up the Pods that the Service will
+#   forward the http requests to
+# --------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: localstack
+  name: localstack
+  namespace: localstack-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: localstack
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: localstack
+    spec:
+      containers:
+        - env:
+            - name: DATA_DIR
+            - name: DEBUG
+            - name: DOCKER_HOST
+              value: unix:///var/run/docker.sock
+            - name: HOST_TMP_FOLDER
+              value: /var/folders/tj/jf57l5554l1b_nvdc1vx13zm0000gn/T/localstack
+            - name: LAMBDA_EXECUTOR
+            - name: LOCALSTACK_API_KEY
+            - name: SERVICES
+          image: localstack/localstack
+          name: localstack
+          ports:
+            - containerPort: 4566
+          resources: {}
+          volumeMounts:
+            - mountPath: /tmp/localstack
+              name: claim0
+            - mountPath: /var/run/docker.sock
+              name: claim1
+      restartPolicy: Always
+      volumes:
+        - name: claim0
+          persistentVolumeClaim:
+            claimName: claim0
+        - name: claim1
+          persistentVolumeClaim:
+            claimName: claim1
+---
+# --------------------------------------------------
+# Top-level Service that binds to port 8001 for
+#   browser-based GUI to interact with DynamoDB
+# --------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: dbadmin
+  name: dbadmin
+  namespace: localstack-ns
+spec:
+  type: NodePort
+  ports:
+    - name: "8001"
+      port: 8001
+      targetPort: 8001
+  selector:
+    name: dbadmin
+---
+# --------------------------------------------------
+# Deployment sets up the Pods that the Service will
+#   forward the http requests to
+# --------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: dbadmin
+  name: dbadmin
+  namespace: localstack-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: dbadmin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: dbadmin
+    spec:
+      containers:
+        - env:
+            - name: DOCKER_HOST
+              value: unix:///var/run/docker.sock
+            - name: DYNAMO_ENDPOINT
+              value: localstack:4566
+          image: aaronshaf/dynamodb-admin
+          name: dbadmin
+          ports:
+            - containerPort: 8001
+          resources: {}
+      restartPolicy: Always
