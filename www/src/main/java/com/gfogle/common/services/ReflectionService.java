@@ -1,5 +1,6 @@
 package com.gfogle.common.services;
 
+import com.gfogle.common.services.LoggingService;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.common.template.TemplateEngine;
@@ -23,8 +24,7 @@ public class ReflectionService {
       );
       Object instance = constructor.newInstance(router, engine);
     } catch (Exception ex) {
-      System.out.println("Error invoking router");
-      System.out.println(ex);
+      LoggingService.error("Error invoking router: " + ex.getMessage());
     }
   }
 
@@ -45,8 +45,9 @@ public class ReflectionService {
 
       m.invoke(instance, ctx, engine);
     } catch (Exception ex) {
-      System.out.println("Error invoking controller method");
-      System.out.println(ex);
+      LoggingService.error(
+        "Error invoking controller method: " + ex.getMessage()
+      );
     }
   }
 }

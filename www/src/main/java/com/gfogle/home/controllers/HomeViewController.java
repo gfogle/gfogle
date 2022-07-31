@@ -1,5 +1,6 @@
 package com.gfogle.home.controllers;
 
+import com.gfogle.common.services.LoggingService;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.common.template.TemplateEngine;
 
@@ -15,7 +16,7 @@ public class HomeViewController {
         if (res.succeeded()) {
           ctx.response().end(res.result());
         } else {
-          System.out.println(
+          LoggingService.error(
             "Failed to render homepage " + res.cause().getMessage()
           );
 

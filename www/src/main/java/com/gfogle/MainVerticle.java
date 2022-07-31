@@ -1,5 +1,6 @@
 package com.gfogle;
 
+import com.gfogle.common.services.LoggingService;
 import com.gfogle.common.services.ReflectionService;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -11,15 +12,25 @@ import java.lang.Class;
 import java.lang.Object;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainVerticle extends AbstractVerticle {
+
+  private final List<String> domains = Arrays.asList(
+    "com.gfogle.home.HomeRouter"
+  );
 
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
     TemplateEngine engine = HandlebarsTemplateEngine.create(vertx, "html");
     Router router = Router.router(vertx);
 
-    ReflectionService.initRouter("com.gfogle.home.HomeRouter", router, engine);
+    domains.forEach(
+      d -> {
+        ReflectionService.initRouter(d, router, engine);
+      }
+    );
 
     vertx
       .createHttpServer()
@@ -29,7 +40,8 @@ public class MainVerticle extends AbstractVerticle {
         http -> {
           if (http.succeeded()) {
             startPromise.complete();
-            System.out.println("HTTP server started on port 3000");
+
+            LoggingService.log("HTTP server started on port 3000");
           } else {
             startPromise.fail(http.cause());
           }

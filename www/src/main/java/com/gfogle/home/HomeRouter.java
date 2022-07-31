@@ -1,5 +1,6 @@
 package com.gfogle.home;
 
+import com.gfogle.common.services.LoggingService;
 import com.gfogle.common.services.ReflectionService;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -12,7 +13,7 @@ import java.lang.reflect.Method;
 public class HomeRouter {
 
   public HomeRouter(Router router, TemplateEngine engine) {
-    System.out.println("HomeRouter constructor");
+    LoggingService.log("HomeRouter constructor");
 
     router
       .get("/")
