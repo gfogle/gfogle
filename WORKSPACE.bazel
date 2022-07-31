@@ -44,3 +44,80 @@ npm_install(
   package_json = "//:package.json",
   package_lock_json = "//:package-lock.json",
 )
+
+# ------------------------------------------------------------------
+# Java Support
+#
+# Documentation: https://bazel.build/reference/be/java
+# ------------------------------------------------------------------
+
+http_archive(
+  name = "jdk17_macos",
+  build_file = "@local_jdk//:BUILD.bazel",
+  sha256 = "79a457f106bf32aafd261a4748471fd10f5ce2a9aa2cc816a91864104c008dff",
+  strip_prefix = "zulu17.34.19-ca-jdk17.0.3-macosx_aarch64",
+  urls = [
+    "https://cdn.azul.com/zulu/bin/zulu17.34.19-ca-jdk17.0.3-macosx_aarch64.tar.gz",
+  ],
+)
+
+http_archive(
+  name = "rules_java",
+  url = "https://github.com/bazelbuild/rules_java/releases/download/4.0.0/rules_java-4.0.0.tar.gz",
+  sha256 = "34b41ec683e67253043ab1a3d1e8b7c61e4e8edefbcad485381328c934d072fe",
+)
+
+load(
+  "@rules_java//java:repositories.bzl",
+  "rules_java_dependencies",
+  "rules_java_toolchains"
+)
+
+rules_java_dependencies()
+rules_java_toolchains()
+
+RULES_JVM_EXTERNAL_TAG = "4.2"
+RULES_JVM_EXTERNAL_SHA = "cd1a77b7b02e8e008439ca76fd34f5b07aecb8c752961f9640dea15e9e5ba1ca"
+
+http_archive(
+  name = "rules_jvm_external",
+  strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+  sha256 = RULES_JVM_EXTERNAL_SHA,
+  url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+#
+# If you're coming from a maven-centric system, the artifacts
+# below are of the format:
+#
+# << groupId >>:<< artifactId >>:<< version >>
+#
+maven_install(
+  artifacts = [
+    "io.vertx:vertx-core:4.2.5",
+    "io.vertx:vertx-web-templ-handlebars:4.2.5",
+    # "io.vertx:vertx-junit5:4.2.5",
+    # "io.vertx:vertx-stack-depchain:4.2.5",
+    "io.vertx:vertx-web:4.2.5",
+    "io.vertx:vertx-web-common:4.2.5",
+    "com.fasterxml.jackson.core:jackson-databind:2.9.10.3"
+  ],
+  fetch_sources = True,
+  #
+  # There's a peculiar behavior where if this is a brand-new
+  # project without a maven_install.json file yet, you need to
+  # comment this line out and run bazel run @maven//:pin to generate
+  # the file first. Then uncomment this.
+  #
+  maven_install_json = "//:maven_install.json",
+  repositories = [
+    # "https://maven.google.com",
+    "https://repo1.maven.org/maven2",
+  ],
+)
+
+load("@maven//:defs.bzl", "pinned_maven_install")
+
+pinned_maven_install()
