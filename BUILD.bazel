@@ -3,3 +3,17 @@
 
 # This file is intentionally here because of
 # https://github.com/bazelbuild/rules_jvm_external/issues/242
+
+load(
+  "@com_github_ash2k_bazel_tools//multirun:def.bzl",
+  "multirun",
+  "command"
+)
+
+multirun(
+  name = "ecom",
+  commands = [
+    "//www:www",
+  ],
+  parallel = True
+)

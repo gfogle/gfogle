@@ -19,7 +19,7 @@ start:
 	echo "You can access a local DB Admin instance at: " && \
 	minikube service --url dbadmin -n localstack-ns && \
 	bazel build //... && \
-	ibazel run //www
+	ibazel run //:ecom
 
 stop:
 	minikube stop && \
