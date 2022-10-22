@@ -86,15 +86,7 @@ install_brew() {
   # TODO: version these installed services and check against
 
   local brew_services=(
-    "bazel"
-    "docker"
-    "dive"
     "git"
-    "kompose"
-    "kubectl"
-    "kubectx"
-    "minikube"
-    "podman"
   )
 
   if ! has "brew"; then
@@ -108,19 +100,7 @@ install_brew() {
 
       # TODO: warn if not installed with brew via: brew leaves --installed-on-request
 
-      if [ $svc == "bazel" ]; then
-        # Installing bazel
-        #   - if this fails you may need to xcode-select --install
-        brew install bazel && \
-        bazel --version && \
-        # Installing graphviz to view bazel build graph
-        brew install graphviz && \
-        # Installing ibazel for file watching and restarting
-        brew tap bazelbuild/tap && \
-        brew install bazelbuild/tap/ibazel
-      else
-        brew install $svc
-      fi
+      brew install $svc
     fi
   done
 }
@@ -167,6 +147,21 @@ install_brew_apps() {
   done
 }
 
+install_sdkman() {
+  print "Setting up SDKMan" "💾"
+
+  if [ -z "$(echo $SDKMAN_DIR | sed -e 's/^[[:space:]]*//')" ]; then
+    curl -s "https://get.sdkman.io" | sh && \
+    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    sdk version && \
+    sdk env install
+  else
+    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    sdk version && \
+    sdk env install
+  fi
+}
+
 
 #######################################
 # @desc sets up Git profile. Assumes git is already installed
@@ -199,7 +194,6 @@ setup_vscode() {
     "editorconfig.editorconfig"
     "esbenp.prettier-vscode"
     "pkief.material-icon-theme"
-    "BazelBuild.vscode-bazel"
   )
 
   for ext in ${code_extensions[@]}; do
@@ -218,7 +212,5 @@ install_node_modules() {
 
 
 install_brew
-install_brew_apps
-setup_git
+install_sdkman
 setup_vscode
-install_node_modules
