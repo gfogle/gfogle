@@ -1,0 +1,22 @@
+{
+  "bugs": {
+    "url": "https://github.com/gfogle/gfogle/issues"
+  },
+  "description": "This is where I keep all of my public projects and gists. If anything here seems interesting, feel free to contact me via [📬 email](mailto:georgefogle@hey.com).",
+  "devDependencies": {
+    "prettier": "2.7.1",
+    "prettier-plugin-java": "1.6.2"
+  },
+  "homepage": "https://github.com/gfogle/gfogle#readme",
+  "license": "MIT",
+  "name": "gfogle",
+  "prettier": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gfogle/gfogle.git"
+  },
+  "version": "1.0.0",
+  "workspaces": [
+    "www"
+  ]
+}
