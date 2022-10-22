@@ -3,7 +3,6 @@
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "mwpb.java-prettier-formatter",
-    "pkief.material-icon-theme",
-    "BazelBuild.vscode-bazel"
+    "pkief.material-icon-theme"
   ]
 }
