@@ -10,13 +10,20 @@ repositories {
 }
 
 dependencies {
+    implementation 'ch.qos.logback:logback-classic:1.4.4'
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+    implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
     implementation 'io.vertx:vertx-core:4.3.3'
     implementation 'io.vertx:vertx-web-templ-handlebars:4.3.3'
     implementation 'io.vertx:vertx-web:4.3.3'
     implementation 'io.vertx:vertx-web-common:4.3.3'
+    implementation 'org.json:json:20220924'
+    implementation 'org.slf4j:slf4j-api:2.0.3'
 
     testImplementation 'io.vertx:vertx-junit5:4.3.3'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.mockito:mockito-core:4.8.1'
 }
 
 application {
