@@ -7,3 +7,5 @@ They are written in conformance with [Google's Style Guide](https://google.githu
 There's an assumption that you already have this repo cloned, which means you also already have `git` installed.
 
 - 📄 `make install` will set up a developer station with all the things I find useful: git aliases, packages and tooling, etc.
+- 📄 `./bin/env` will sanity check the `.env` file and load up necessary shell
+commands: nvm, sdk etc.

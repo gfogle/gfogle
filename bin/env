@@ -1,0 +1,65 @@
+#!/usr/bin/env zsh
+
+
+set -e
+
+################################################################################
+# @desc sources helpers file to "import" them and expose them to this script
+################################################################################
+source ./bin/_helpers
+
+
+################################################################################
+# @desc parses .env file and makes sure it contains the required vars
+################################################################################
+load_envfile() {
+  print "Loading .env file" "💾"
+
+  declare -A required=(
+    ["NODE_ENV"]="development"
+  )
+
+  declare -A found=()
+
+  while IFS= read -r line; do
+    local pair=`echo $line | sed -e 's/^[[:space:]]*//'`
+
+    if [ -z "pair" ]; then
+      continue
+    fi
+
+    local parts=(${(@s:=:)pair})
+
+    for key value in "${parts[@]}"; do
+      found[$key]=$value
+    done
+  done < .env
+
+  for key value in "${(kv)required[@]}"; do
+    print "${found[$key]}" "💾"
+
+    if [ -z "${found[$key]}" ]; then
+      err "missing required env var $key in your .env file"
+    elif [ "${found[$key]}" = "" ]; then
+      err "missing required env var $key in your .env file"
+    fi
+  done
+}
+
+
+################################################################################
+# @desc parses .env file and makes sure it contains the required vars
+################################################################################
+load_sdkman() {
+  print "Loading sdkman" "💾"
+
+  source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    sdk env install
+}
+
+
+################################################################################
+# Load into Shell
+################################################################################
+load_envfile
+load_sdkman
