@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+
+
+set -e
+
+################################################################################
+# @desc Prints an error and exits this script
+# @param the error message you want printed
+################################################################################
+err() {
+  echo "🚫 [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $1" >&2 && \
+  exit 1
+}
+
+
+################################################################################
+# @desc Prints a line of content and a newline
+# @param 1 - the message
+# @param 2 - an optional leading emoji
+################################################################################
+print() {
+  if [ -z "$2" ]; then
+    echo "$1 \n"
+  else
+    echo "$2 $1 \n"
+  fi
+}

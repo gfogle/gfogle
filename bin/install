@@ -1,42 +1,25 @@
-#!/usr/bin/env sh
-#
-# Set up a developer workstation.
+#!/usr/bin/env zsh
+
 
 set -e
 
-
-#######################################
-# @desc Prints an error and exits this script
-# @param the error message you want printed
-#######################################
-err() {
-  echo "🚫 [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $1" >&2 && \
-  exit 1
-}
+################################################################################
+# @desc sources helpers file to "import" them and expose them to this script
+################################################################################
+source ./bin/_helpers
 
 
-#######################################
-# @desc Prints a line of content and a newline
-# @param 1 - the message
-# @param 2 - an optional leading emoji
-#######################################
-print() {
-  if [ -z "$2" ]; then
-    echo "$1 \n"
-  else
-    echo "$2 $1 \n"
-  fi
-}
-
-
-#######################################
+################################################################################
 # @desc checks if a command is installed using which
 # @param 1 - the name of the command
-#######################################
+################################################################################
 has() {
   local has_cmd=`which $1 | sed -e 's/^[[:space:]]*//'`
 
   if [ -z "$has_cmd" ]; then
+    print "Command $1 is not installed." "🔎"
+    return 1
+  elif [ $has_cmd = "$1 not found" ]; then
     print "Command $1 is not installed." "🔎"
     return 1
   else
@@ -45,10 +28,10 @@ has() {
   fi
 }
 
-#######################################
+################################################################################
 # @desc checks if a file exists
 # @param 1 - the name of the file
-#######################################
+################################################################################
 has_file() {
   if [ -f $1 ]; then
     print "File $1 exists already." "🔎"
@@ -60,10 +43,10 @@ has_file() {
 }
 
 
-#######################################
+################################################################################
 # @desc checks if a GUI app is installed and visible in Launchpad
 # @param 1 - the name of the app
-#######################################
+################################################################################
 has_app() {
   local installed=$( mdfind -name "kMDItemFSName==\"*$1*.app\"" -onlyin /Volumes/Macintosh\ HD/Applications/ ~/Applications /Applications |cut -d "/" -f3|grep .app )
 
@@ -77,9 +60,9 @@ has_app() {
 }
 
 
-#######################################
+################################################################################
 # @desc install Homebrew and CLI commands installed through it
-#######################################
+################################################################################
 install_brew() {
   print "Setting up Homebrew commands" "💾"
 
@@ -87,6 +70,7 @@ install_brew() {
 
   local brew_services=(
     "git"
+    "supervisor"
   )
 
   if ! has "brew"; then
@@ -106,9 +90,9 @@ install_brew() {
 }
 
 
-#######################################
+################################################################################
 # @desc install Homebrew Cask GUI apps
-#######################################
+################################################################################
 install_brew_apps() {
   print "Setting up Homebrew Cask apps" "💾"
 
@@ -147,25 +131,63 @@ install_brew_apps() {
   done
 }
 
+################################################################################
+# @desc installs sdkman and required SDKs
+################################################################################
 install_sdkman() {
   print "Setting up SDKMan" "💾"
 
   if [ -z "$(echo $SDKMAN_DIR | sed -e 's/^[[:space:]]*//')" ]; then
-    curl -s "https://get.sdkman.io" | sh && \
-    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
-    sdk version && \
+    curl -s "https://get.sdkman.io" | sh
+  fi
+
+  source "$HOME/.sdkman/bin/sdkman-init.sh" && \
     sdk env install
-  else
-    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
-    sdk version && \
-    sdk env install
+}
+
+
+################################################################################
+# @desc requires the default shell to be zsh
+################################################################################
+require_zsh() {
+  print "Checking that the shell is zsh" "💾"
+
+  local default_shell=$SHELL
+
+  if [ $default_shell != '/bin/zsh' ]; then
+    err "
+    This script requires /bin/zsh as the default shell but youre running $shell.
+    Try running the command below to change youre default shell to zsh:
+
+    $> chsh -s /bin/zsh
+
+    If you see errors related to compinit and compaudit, you may need to run the
+    following commands:
+
+    $> chmod g-w /usr/local/share/zsh
+    $> chmod g-w /usr/local/share/zsh/site-functions
+
+    For more information see: https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
+    "
   fi
 }
 
 
-#######################################
+################################################################################
+# @desc sets up .env file for secrets etc
+################################################################################
+setup_env() {
+  print "Setting up .env file" "💾"
+
+  if ! has_file ./.env; then
+    touch .env
+  fi
+}
+
+
+################################################################################
 # @desc sets up Git profile. Assumes git is already installed
-#######################################
+################################################################################
 setup_git() {
   print "Setting up git aliases" "💾"
 
@@ -184,9 +206,9 @@ setup_git() {
 }
 
 
-#######################################
+################################################################################
 # @desc sets up vscode extensions
-#######################################
+################################################################################
 setup_vscode() {
   print "Setting up VS Code extensions" "💾"
 
@@ -202,15 +224,13 @@ setup_vscode() {
 }
 
 
-#######################################
-# @desc installs node_modules via bazel
-#######################################
-install_node_modules() {
-  print "Installing node_modules" "💾"
-  bazel run @nodejs//:npm_node_repositories install -- --save
-}
+################################################################################
+# Installations
+################################################################################
 
+require_zsh
 
 install_brew
 install_sdkman
 setup_vscode
+setup_env
