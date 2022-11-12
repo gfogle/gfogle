@@ -112,3 +112,6 @@ bazel-out
 
 # Ignore Gradle build output directory
 build
+
+# temporary files
+tmp
