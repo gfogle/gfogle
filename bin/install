@@ -207,6 +207,18 @@ setup_git() {
 
 
 ################################################################################
+# @desc sets up graalvm deps for native-image etc.
+################################################################################
+setup_graalvm() {
+  print "Setting up GraalVM for native images"  "💾"
+
+  if ! has "native-image"; then
+    gu install native-image
+  fi
+}
+
+
+################################################################################
 # @desc sets up vscode extensions
 ################################################################################
 setup_vscode() {
@@ -232,5 +244,7 @@ require_zsh
 
 install_brew
 install_sdkman
+
 setup_vscode
 setup_env
+setup_graalvm
