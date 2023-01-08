@@ -101,6 +101,7 @@ install_brew_apps() {
     "Docker"
     "Firefox"
     "Google Chrome"
+    "sublime-text"
     "Telegram"
     "Visual Studio Code"
     "WhatsApp"
@@ -243,6 +244,7 @@ setup_vscode() {
 require_zsh
 
 install_brew
+install_brew_apps
 install_sdkman
 
 setup_vscode
